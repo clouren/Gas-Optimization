@@ -1,0 +1,122 @@
+data;
+
+### SETS ###
+
+set NODES :=
+entry03
+entry02
+entry01
+exit01
+exit03
+exit02
+N05
+N03
+N01
+N04
+N02
+;
+
+set SOURCES :=
+entry03
+entry02
+entry01
+;
+
+set SINKS :=
+exit01
+exit03
+exit02
+;
+
+set ARCS :=
+(entry01, entry03)
+(entry02, N03)
+(N01, N02)
+(N02, exit01)
+(N02, N04)
+(N05, exit03)
+(N05, exit02)
+(N03, N04)
+(N04 , N05)
+(entry03 , N01)
+;
+
+set PIPES :=
+(entry01 , entry03)
+(entry02 , N03)
+(N01 , N02)
+(N02 , exit01)
+(N02 , N04)
+(N05 , exit03)
+(N05 , exit02)
+(N03 , N04)
+;
+
+set COMPRESSORS:=
+(N04,N05)
+(entry03,N01)
+;
+
+### PARAMS ###
+
+
+# for NODES
+param: FlowInOut PressureLower PressureUpper :=
+entry03 0.00 40.0 70.0
+entry02 140.00 40.0 70.0
+entry01 160.00 40.0 70.0
+exit01 -100.00 40.0 70.0
+exit03 -80.00 40.0 60.0
+exit02 -120.00 40.0 60.0
+N05 0 40.0 70.0
+N03 0 40.0 70.0
+N01 0 40.0 70.0
+N04 0 40.0 70.0
+N02 0 40.0 70.0
+;
+
+# for SOURCES
+param: CalorificValue:=
+entry03 36.4543670654
+entry02 36.4543670654
+entry01 36.4543670654
+;
+
+# for Sinks
+param: FlowLowerNode FlowUpperNode :=
+exit01 50.0 1250.0
+exit03 40.0 600.0
+exit02 80.0 400.0
+;
+
+# for Arcs
+param: FlowLowerArc FlowUpperArc :=
+entry01 entry03 -1100.0 1100.0
+entry02 N03 -1100.0 1100.0
+N01 N02 -1100.0 1100.0
+N02 exit01 -1100.0 1100.0
+N02 N04 -1100.0 1100.0
+N05 exit03 -1100.0 1100.0
+N05 exit02 -1100.0 1100.0
+N03 N04 -1100.0 1100.0
+N04 N05 0.0 1100.0
+entry03 N01 0.0 1100.0
+;
+
+# for PIPES
+param: Roughness Diameter Length :=
+entry01 entry03 0.1 500.0 55.0
+entry02 N03 0.1 500.0 55.0
+N01 N02 0.1 500.0 55.0
+N02 exit01 0.1 500.0 55.0
+N02 N04 0.1 500.0 55.0
+N05 exit03 0.1 500.0 55.0
+N05 exit02 0.1 500.0 55.0
+N03 N04 0.1 500.0 55.0
+;
+
+# for COMPRESSORSTATIONS
+param:  PressureChangeUpper PressureChangeLower :=
+N04 N05 30.0 0
+entry03 N01 30.0 0
+;

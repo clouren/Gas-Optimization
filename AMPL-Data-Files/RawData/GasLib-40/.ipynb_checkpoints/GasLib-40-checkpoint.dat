@@ -1,0 +1,390 @@
+data;
+
+### SETS ###
+
+set NODES :=
+source_3
+source_1
+source_2
+sink_4
+sink_18
+sink_1
+sink_9
+sink_12
+sink_14
+sink_19
+sink_15
+sink_20
+sink_26
+sink_3
+sink_25
+sink_21
+sink_22
+sink_27
+sink_23
+sink_5
+sink_2
+sink_11
+sink_7
+sink_29
+sink_17
+sink_13
+sink_8
+sink_28
+sink_16
+sink_6
+sink_10
+sink_24
+innode_1
+innode_2
+innode_7
+innode_5
+innode_4
+innode_8
+innode_3
+innode_6
+;
+
+set SOURCES :=
+source_3
+source_1
+source_2
+;
+
+set SINKS :=
+sink_4
+sink_18
+sink_1
+sink_9
+sink_12
+sink_14
+sink_19
+sink_15
+sink_20
+sink_26
+sink_3
+sink_25
+sink_21
+sink_22
+sink_27
+sink_23
+sink_5
+sink_2
+sink_11
+sink_7
+sink_29
+sink_17
+sink_13
+sink_8
+sink_28
+sink_16
+sink_6
+sink_10
+sink_24
+;
+
+set ARCS :=
+(sink_29, sink_2)
+(source_1, sink_3)
+(sink_7, sink_5)
+(sink_21, sink_12)
+(sink_25, sink_26)
+(sink_6, sink_7)
+(innode_1, sink_16)
+(innode_4, sink_19)
+(sink_29, sink_28)
+(sink_25, innode_8)
+(sink_6, sink_22)
+(sink_13, sink_14)
+(sink_27, sink_19)
+(sink_22, sink_1)
+(sink_18, sink_6)
+(sink_8, sink_20)
+(sink_26, sink_4)
+(innode_6, sink_13)
+(sink_10, innode_3)
+(sink_9, sink_18)
+(innode_4, innode_5)
+(sink_19, innode_3)
+(sink_25, sink_15)
+(sink_10, innode_2)
+(sink_10, sink_11)
+(sink_27, innode_5)
+(sink_24, sink_21)
+(sink_4, sink_20)
+(sink_5, sink_17)
+(sink_17, sink_4)
+(sink_25, sink_20)
+(sink_26, sink_9)
+(sink_3, sink_23)
+(sink_14, sink_10)
+(sink_29, innode_7)
+(sink_2, sink_15)
+(sink_17, sink_8)
+(sink_7, sink_24)
+(sink_15, sink_29)
+(innode_6 , sink_25)
+(source_3 , innode_4)
+(sink_11 , innode_1)
+(sink_3 , innode_8)
+(sink_19 , innode_2)
+(source_2 , innode_7)
+;
+
+set PIPES :=
+(sink_29 , sink_2)
+(source_1 , sink_3)
+(sink_7 , sink_5)
+(sink_21 , sink_12)
+(sink_25 , sink_26)
+(sink_6 , sink_7)
+(innode_1 , sink_16)
+(innode_4 , sink_19)
+(sink_29 , sink_28)
+(sink_25 , innode_8)
+(sink_6 , sink_22)
+(sink_13 , sink_14)
+(sink_27 , sink_19)
+(sink_22 , sink_1)
+(sink_18 , sink_6)
+(sink_8 , sink_20)
+(sink_26 , sink_4)
+(innode_6 , sink_13)
+(sink_10 , innode_3)
+(sink_9 , sink_18)
+(innode_4 , innode_5)
+(sink_19 , innode_3)
+(sink_25 , sink_15)
+(sink_10 , innode_2)
+(sink_10 , sink_11)
+(sink_27 , innode_5)
+(sink_24 , sink_21)
+(sink_4 , sink_20)
+(sink_5 , sink_17)
+(sink_17 , sink_4)
+(sink_25 , sink_20)
+(sink_26 , sink_9)
+(sink_3 , sink_23)
+(sink_14 , sink_10)
+(sink_29 , innode_7)
+(sink_2 , sink_15)
+(sink_17 , sink_8)
+(sink_7 , sink_24)
+(sink_15 , sink_29)
+;
+
+set  COMPRESSORS:=
+(innode_6,sink_25)
+(source_3,innode_4)
+(sink_11,innode_1)
+(sink_3,innode_8)
+(sink_19,innode_2)
+(source_2,innode_7)
+;
+
+set  CONTROLVALVES:=
+;
+
+set  VALVES:=
+;
+
+set  SHORTPIPES:=
+;
+
+set  RESISTORS:=
+;
+
+### PARAMS ###
+
+
+# for NODES
+param: FlowInOut PressureLower PressureUpper :=
+source_3 725 1.01325 81.01325
+source_1 725 1.01325 81.01325
+source_2 725 1.01325 81.01325
+sink_4 -75 1.01325 81.01325
+sink_18 -75 1.01325 81.01325
+sink_1 -75 1.01325 81.01325
+sink_9 -75 1.01325 81.01325
+sink_12 -75 1.01325 81.01325
+sink_14 -75 1.01325 81.01325
+sink_19 -75 1.01325 81.01325
+sink_15 -75 1.01325 81.01325
+sink_20 -75 1.01325 81.01325
+sink_26 -75 1.01325 81.01325
+sink_3 -75 1.01325 81.01325
+sink_25 -75 1.01325 81.01325
+sink_21 -75 1.01325 81.01325
+sink_22 -75 1.01325 81.01325
+sink_27 -75 1.01325 81.01325
+sink_23 -75 1.01325 81.01325
+sink_5 -75 1.01325 81.01325
+sink_2 -75 1.01325 81.01325
+sink_11 -75 1.01325 81.01325
+sink_7 -75 1.01325 81.01325
+sink_29 -75 1.01325 81.01325
+sink_17 -75 1.01325 81.01325
+sink_13 -75 1.01325 81.01325
+sink_8 -75 1.01325 81.01325
+sink_28 -75 1.01325 81.01325
+sink_16 -75 1.01325 81.01325
+sink_6 -75 1.01325 81.01325
+sink_10 -75 1.01325 81.01325
+sink_24 -75 1.01325 81.01325
+innode_1 0 1.01325 81.01325
+innode_2 0 1.01325 81.01325
+innode_7 0 1.01325 81.01325
+innode_5 0 1.01325 81.01325
+innode_4 0 1.01325 81.01325
+innode_8 0 1.01325 81.01325
+innode_3 0 1.01325 81.01325
+innode_6 0 1.01325 81.01325
+;
+
+# Mean Calculated Parameters
+param AvgMolarMass := 0.0185674;
+param AvgGasTemp := 273.15;
+param AvgmeanPressure := 41.01324999999998;
+param MeanPseudoCritical := 45.9293457336;
+
+# for SOURCES
+param: CalorificValue:=
+source_3 33.43271889381492
+source_1 39.26821540965522
+source_2 36.37376530838857
+;
+
+# for SINKS
+param: FlowLowerNode FlowUpperNode :=
+sink_4 -10000.0 -0.0
+sink_18 -10000.0 -0.0
+sink_1 -10000.0 -0.0
+sink_9 -10000.0 -0.0
+sink_12 -10000.0 -0.0
+sink_14 -10000.0 -0.0
+sink_19 -10000.0 -0.0
+sink_15 -10000.0 -0.0
+sink_20 -10000.0 -0.0
+sink_26 -10000.0 -0.0
+sink_3 -10000.0 -0.0
+sink_25 -10000.0 -0.0
+sink_21 -10000.0 -0.0
+sink_22 -10000.0 -0.0
+sink_27 -10000.0 -0.0
+sink_23 -10000.0 -0.0
+sink_5 -10000.0 -0.0
+sink_2 -10000.0 -0.0
+sink_11 -10000.0 -0.0
+sink_7 -10000.0 -0.0
+sink_29 -10000.0 -0.0
+sink_17 -10000.0 -0.0
+sink_13 -10000.0 -0.0
+sink_8 -10000.0 -0.0
+sink_28 -10000.0 -0.0
+sink_16 -10000.0 -0.0
+sink_6 -10000.0 -0.0
+sink_10 -10000.0 -0.0
+sink_24 -10000.0 -0.0
+;
+
+# for ARCS
+param: FlowLowerArc FlowUpperArc :=
+sink_29 sink_2 -10000.0 10000.0
+source_1 sink_3 -10000.0 10000.0
+sink_7 sink_5 -10000.0 10000.0
+sink_21 sink_12 -10000.0 10000.0
+sink_25 sink_26 -10000.0 10000.0
+sink_6 sink_7 -10000.0 10000.0
+innode_1 sink_16 -10000.0 10000.0
+innode_4 sink_19 -10000.0 10000.0
+sink_29 sink_28 -10000.0 10000.0
+sink_25 innode_8 -10000.0 10000.0
+sink_6 sink_22 -10000.0 10000.0
+sink_13 sink_14 -10000.0 10000.0
+sink_27 sink_19 -10000.0 10000.0
+sink_22 sink_1 -10000.0 10000.0
+sink_18 sink_6 -10000.0 10000.0
+sink_8 sink_20 -10000.0 10000.0
+sink_26 sink_4 -10000.0 10000.0
+innode_6 sink_13 -10000.0 10000.0
+sink_10 innode_3 -10000.0 10000.0
+sink_9 sink_18 -10000.0 10000.0
+innode_4 innode_5 -10000.0 10000.0
+sink_19 innode_3 -10000.0 10000.0
+sink_25 sink_15 -10000.0 10000.0
+sink_10 innode_2 -10000.0 10000.0
+sink_10 sink_11 -10000.0 10000.0
+sink_27 innode_5 -10000.0 10000.0
+sink_24 sink_21 -10000.0 10000.0
+sink_4 sink_20 -10000.0 10000.0
+sink_5 sink_17 -10000.0 10000.0
+sink_17 sink_4 -10000.0 10000.0
+sink_25 sink_20 -10000.0 10000.0
+sink_26 sink_9 -10000.0 10000.0
+sink_3 sink_23 -10000.0 10000.0
+sink_14 sink_10 -10000.0 10000.0
+sink_29 innode_7 -10000.0 10000.0
+sink_2 sink_15 -10000.0 10000.0
+sink_17 sink_8 -10000.0 10000.0
+sink_7 sink_24 -10000.0 10000.0
+sink_15 sink_29 -10000.0 10000.0
+innode_6 sink_25 -10000.0 10000.0
+source_3 innode_4 -10000.0 10000.0
+sink_11 innode_1 -10000.0 10000.0
+sink_3 innode_8 -10000.0 10000.0
+sink_19 innode_2 -10000.0 10000.0
+source_2 innode_7 -10000.0 10000.0
+;
+
+# for PIPES
+param: Roughness Diameter Length e d :=
+sink_29 sink_2 5e-05 0.8 31179.6191038 0.237764961095181 0.237764961095181
+source_1 sink_3 5e-05 1.0 13071.0852297 0.376714833424634 0.376714833424634
+sink_7 sink_5 5e-05 0.4 14043.1135378 0.0569185329683818 0.0569185329683818
+sink_21 sink_12 5e-05 0.4 12015.8748344 0.0569185329683818 0.0569185329683818
+sink_25 sink_26 5e-05 0.8 86690.2655668 0.237764961095181 0.237764961095181
+sink_6 sink_7 5e-05 0.6 3802.5866770499997 0.131354002266787 0.131354002266787
+innode_1 sink_16 5e-05 0.8 76893.5507568 0.237764961095181 0.237764961095181
+innode_4 sink_19 5e-05 0.8 49866.1483875 0.237764961095181 0.237764961095181
+sink_29 sink_28 5e-05 0.8 22224.1532472 0.237764961095181 0.237764961095181
+sink_25 innode_8 5e-05 0.8 47488.2838523 0.237764961095181 0.237764961095181
+sink_6 sink_22 5e-05 0.8 39036.0418114 0.237764961095181 0.237764961095181
+sink_13 sink_14 5e-05 1.0 6998.05377872 0.376714833424634 0.376714833424634
+sink_27 sink_19 5e-05 0.8 26427.4816453 0.237764961095181 0.237764961095181
+sink_22 sink_1 5e-05 0.6 18017.8496012 0.131354002266787 0.131354002266787
+sink_18 sink_6 5e-05 0.8 32868.2025259 0.237764961095181 0.237764961095181
+sink_8 sink_20 5e-05 0.6 19303.1920196 0.131354002266787 0.131354002266787
+sink_26 sink_4 5e-05 0.6 35218.8390867 0.131354002266787 0.131354002266787
+innode_6 sink_13 5e-05 1.0 21557.5661917 0.376714833424634 0.376714833424634
+sink_10 innode_3 5e-05 0.8 65532.2127112 0.237764961095181 0.237764961095181
+sink_9 sink_18 5e-05 0.6 10022.7829812 0.131354002266787 0.131354002266787
+innode_4 innode_5 1.2e-05 1.0 3418.00825125 1.71012881953076 1.71012881953076
+sink_19 innode_3 1.2e-05 0.8 3479.45466552 1.08042937250942 1.08042937250942
+sink_25 sink_15 5e-05 1.0 18969.412711099998 0.376714833424634 0.376714833424634
+sink_10 innode_2 5e-05 0.8 65057.174267899994 0.237764961095181 0.237764961095181
+sink_10 sink_11 5e-05 1.0 18136.5972918 0.376714833424634 0.376714833424634
+sink_27 innode_5 5e-05 1.0 32449.372045300002 0.376714833424634 0.376714833424634
+sink_24 sink_21 5e-05 0.6 3067.54743994 0.131354002266787 0.131354002266787
+sink_4 sink_20 5e-05 0.6 20322.2054259 0.131354002266787 0.131354002266787
+sink_5 sink_17 5e-05 0.6 20634.698268800003 0.131354002266787 0.131354002266787
+sink_17 sink_4 5e-05 0.6 10586.1294733 0.131354002266787 0.131354002266787
+sink_25 sink_20 5e-05 0.6 66036.5946309 0.131354002266787 0.131354002266787
+sink_26 sink_9 5e-05 0.6 16579.3259985 0.131354002266787 0.131354002266787
+sink_3 sink_23 5e-05 0.8 12397.3521636 0.237764961095181 0.237764961095181
+sink_14 sink_10 5e-05 0.8 58218.9695531 0.237764961095181 0.237764961095181
+sink_29 innode_7 5e-05 0.8 32921.259815 0.237764961095181 0.237764961095181
+sink_2 sink_15 5e-05 1.0 12766.7034136 0.376714833424634 0.376714833424634
+sink_17 sink_8 5e-05 0.6 10452.031178000001 0.131354002266787 0.131354002266787
+sink_7 sink_24 5e-05 0.4 38659.824363 0.0569185329683818 0.0569185329683818
+sink_15 sink_29 5e-05 0.8 36061.0098747 0.237764961095181 0.237764961095181
+;
+
+# for COMPRESSORSTATIONS & CONTROLVAVES
+param:  PressureChangeUpper PressureChangeLower :=
+innode_6 sink_25 40.0 0
+source_3 innode_4 40.0 0
+sink_11 innode_1 40.0 0
+sink_3 innode_8 40.0 0
+sink_19 innode_2 40.0 0
+source_2 innode_7 40.0 0
+;

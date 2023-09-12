@@ -1,0 +1,579 @@
+<document>
+<category>minco</category>
+<solver>Baron</solver>
+<inputMethod>AMPL</inputMethod>
+<email><![CDATA[lourenco@usna.edu]]></email>
+<client><![CDATA[Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36@136.160.90.53]]></client>
+<priority><![CDATA[long]]></priority>
+<model><![CDATA[
+### This is the MPCC model, which is the third model presented in the paper
+### The model is the same as the MINLP except it reformulates the mixing
+### This is the full version consisting of the model with shared data copied in
+### directly. This is needed to work correctly with Neos server.
+
+
+### Sets used across all models
+
+set NODES;   # This is the set of all nodes (V)
+set SOURCES; # Subset of NODES, (V+)
+set SINKS;   # Subset of NODES, (V-)
+set NAMES;   # Names of each pipe to make it three dimensional
+set ARCS within (NODES cross NODES cross NAMES);            # (A)
+set PIPES within (NODES cross NODES cross NAMES);           # Subset of ARCS (A_pi)
+set COMPRESSORS within (NODES cross NODES cross NAMES);     # Subset of ARCS (A_cm)
+set CONTROLVALVES within (NODES cross NODES cross NAMES);   # Subset of ARCS (A_cv)
+set SHORTPIPES within (NODES cross NODES cross NAMES);      # Subset of ARCS (A_sp)
+set RESISTORS within (NODES cross NODES cross NAMES);       # Subset of ARCS (A_r)
+set UNI = COMPRESSORS union CONTROLVALVES;                  # Subset of ARCS (A_cm U A_cv)
+set VALVES within (NODES cross NODES cross NAMES);          # Subset of ARCS (A_v)
+
+### Parameters ###
+
+## Constants
+
+# universal gas constant (R)
+param UnivGasConstant = 8.3144621;
+
+# gravity acceleration (g)
+param Gravity = 9.80665;
+
+# Globally calculated parameters. These are calculated in Python
+
+# Average Molar mass entering gas network (M)
+param AvgMolarMass;
+
+# Average Temperature of gas entering network (T)
+param AvgGasTemp;
+
+# Average PseudoCritical Temperature (T_c)
+param AvgPseudoTemp;
+
+# Average PseudoCritical Pressure (P_c)
+param AvgPseudoPressure;
+
+# Specific gas constant with average molar mass (R)
+param AvgGasConstant = UnivGasConstant/AvgMolarMass;
+
+# Mean of average of Pressure bounds for sources (P_c)
+param AvgPressure;
+
+
+## Node parameters
+
+# flow in/out (q_nom) #
+param FlowInOut{u in NODES};
+
+# pressure lower bound per node (p_lower)
+param PressureLower{u in NODES};
+
+# pressure upper bound per node (p_upper)
+param PressureUpper{u in NODES};
+
+## Source parameters
+
+# Gas temp param
+param GasTemperature{u in SOURCES};
+
+# Molar Mass for gas
+param MolarMass{u in SOURCES};
+
+# calorific value of suppled gas (H_sup or H_c)
+param CalorificValue{u in SOURCES};
+
+# calorific upper: max across Hc_sup (H_upper)
+param CalorificUpper = max{u in SOURCES} CalorificValue[u];
+
+# calorific lower: min across Hc_sup (H_lower)
+param CalorificLower = min{u in SOURCES} CalorificValue[u];
+
+
+## Sink parameters
+
+# node flow lower bound per node (q_lower)
+param FlowLowerNode{u in SINKS};
+
+# node flow upper bound per node (q_upper)
+param FlowUpperNode{u in SINKS};
+
+
+## Arc parameters
+
+# flow lower bound for eac arc (q_lower)
+param FlowLowerArc{(u,v,q) in ARCS};
+
+# flow upper bound (q_upper)
+param FlowUpperArc{(u,v,q) in ARCS};
+
+## Pipe parameters
+
+# pressure change upper bound.(delta_upper)
+param PressureChangeUpper{(u,v,q) in UNI};
+
+# pressure change lower bound (delta_lower)
+param PressureChangeLower{(u,v,q) in UNI};
+
+# mean compressibility (chapter 2 page 20)
+param MeanCompressibility = 1 - 3.52*(AvgPressure/AvgPseudoPressure)*exp(-2.26*AvgGasTemp/AvgPseudoTemp) + 0.274*(AvgPressure/AvgPseudoPressure)**2*exp(-1.878*AvgGasTemp/AvgPseudoTemp);
+
+# flow weighted mean of the calorific value supplied at all nodes (H_cm)
+param MeanCalorificValue = (sum{u in SOURCES}(FlowInOut[u]*CalorificValue[u]))/(sum{u in SOURCES}(FlowInOut[u]));
+
+
+## Sink parameters
+
+# heat power lower bound (\underbar{P}_u)
+param HeatPowerLower{u in SINKS} = 1.1*MeanCalorificValue*(FlowLowerNode[u]);
+
+# heat power upper bound (\bar{P}_u)
+param HeatPowerUpper{u in SINKS} = 0.9*MeanCalorificValue*(FlowUpperNode[u]);
+
+## Phi parameters
+
+#diameter of pipe (D) m
+param Diameter{(u,v,q) in PIPES};
+
+# Length of pipe (L) m
+param Length{(u,v,q) in PIPES};
+
+#area of pipe (A) m**2
+param pi = 4 * atan(1);
+param Area{(u,v,q) in PIPES} = pi*(Diameter[u,v,q]/2)**2;
+
+# specific gas constant J/(kg*K)
+param SpecificGasConstant = UnivGasConstant/AvgMolarMass;
+
+# roughness of pipe (k) m
+param Roughness{(u,v,q) in PIPES};
+
+# friction parameter unitless
+param Beta{(u,v,q) in PIPES} = Roughness[u,v,q]/(3.71*Diameter[u,v,q]);
+
+# friction factor of pipe a (from High detail) (lambda with tilda) unitless
+#param FrictionFactor{(u,v,q) in PIPES} = (2*log10(Beta[u,v,q]))**(2);
+
+# friction parameter lambda of pipe a (from High detail) (unitless)
+# From Chapter 2 equation 2.19
+# This is for the turbulent case and phi approx
+param Lambda{(u,v,q) in PIPES} = (2*log10(Beta[u,v,q])+1.138)**(-2);
+
+# Dynamic viscosity. This is an estimate for the viscosity units are m**2/s
+param Eta = 10**(-6);
+
+# Gamma used to have units for pressure  1/m**5
+# This is from various sources, one is Chapter 2 equation 2.25
+# Chapter 6 has a description in equation 6.4
+param Gamma{(u,v,q) in PIPES} = Length[u,v,q]*SpecificGasConstant*AvgGasTemp* MeanCompressibility
+/(Area[u,v,q]**2*Diameter[u,v,q]);
+
+# This is the coefficient of the phi approximation
+# which is gamma times littlvae lambda
+# This is from chapter 6 6.14
+param FrictionFactor{(u,v,q) in PIPES} = Gamma[u,v,q]*Lambda[u,v,q];
+
+# modeler parameters NOTE This is chosen by the modeler. unitless.
+param e{(u,v,q) in PIPES};
+
+# This is caculated from MATLAB and used to calculate param d. unitless.
+param d{(u,v,q) in PIPES};
+
+# friction factor of alpha m**3/s
+param Alpha{(u,v,q) in PIPES} = 2.51*Area[u,v,q]*Eta/Diameter[u,v,q];
+
+# friction parameter delta NOTE This is lower case delta in formulation m**3/s
+param Epsilon{(u,v,q) in PIPES} = 2*Alpha[u,v,q]/(Beta[u,v,q]*log(10));
+
+# friction parameter b, m**3/s
+param b{(u,v,q) in PIPES} = 2*Epsilon[u,v,q];
+
+# friction parameter c , m**6/s**2
+param c{(u,v,q) in PIPES} = (log(Beta[u,v,q])+1)*Epsilon[u,v,q]**(2) - ((e[u,v,q]**(2))/2);
+
+# Slack Parameter
+param SlackPressure = 0.01;
+
+param SlackMixingNonSource = 0.01;
+
+param SlackMixingSource = 0.01;
+
+# Variables
+
+# Node Variables
+
+# pressure (p)
+var PressureVar{u in NODES} >= PressureLower[u], <= PressureUpper[u];
+
+# mixing calorific value (H_node)
+var MixCalorificValue{u in NODES} >=CalorificLower, <=CalorificUpper;
+
+# Arc Variables
+
+# arc flow (q)
+var FlowArcVar{(u,v,q) in ARCS} >= FlowLowerArc[u,v,q], <= FlowUpperArc[u,v,q];
+
+# calorific values on the edge (H_arc)
+var CalorificArcVar{(u,v,q) in ARCS} >= CalorificLower, <= CalorificUpper;
+
+# directional flow variable (beta_a)
+var DirectionPos{(u,v,q) in ARCS} >=0;
+
+# For flow splitting, HS uses a reformulation with lambda variables and an eta parameter.
+# There is a lambda_1 and lambda_2 for each arc and a parameter eta which is chosen to be 10^-6
+# Thus, below we define the lambda1 and lambda2 variables for each ARCS
+var lambda_1{(u,v,q) in ARCS} >= 0;
+var lambda_2{(u,v,q) in ARCS} >= 0;
+
+# Phi
+var Phi{(u,v,q) in PIPES};
+
+# change of pressure (delta)
+var PressureChangeVar{(u,v,q) in UNI} >= PressureChangeLower[u,v,q], <= PressureChangeUpper[u,v,q];
+
+minimize Z: sum{(u,v,q) in COMPRESSORS} PressureChangeVar[u,v,q];
+
+subject to massbalance{u in NODES}: 
+FlowInOut[u] = sum{(u,v,q) in ARCS} FlowArcVar[u,v,q] - sum{(v,u,q) in ARCS} FlowArcVar[v,u,q];
+
+subject to pressurebalance{(u,v,q) in PIPES}: 
+-SlackPressure <=
+PressureVar[v]**2 - PressureVar[u]**2  + Phi[u,v,q]
+<= SlackPressure;
+
+# Our models do not incoporate the physical properties of
+# valves and resistors thus we treat them like short pipes.
+# short pipes are just connectors so there is no ability for pressure loss
+# thus, we set the pressure variables equal to each other across
+# all of these network components.
+subject to pressurebalance2{(u,v,q) in SHORTPIPES union VALVES union RESISTORS}: 
+PressureVar[v] = PressureVar[u];
+
+# Note (10**6) is divided to make sure convert units (m^4/s^4) into Pa (m^4/(s^4*10^(-6))) while (100000^2) is to change pressure unit Pa from Bar.
+subject to pressurelossinpipe{(u,v,q) in PIPES}: 
+Phi[u,v,q] = FrictionFactor[u,v,q]*
+(
+    (
+        sqrt(FlowArcVar[u,v,q]**2 + e[u,v,q]**2)
+        /(1000**2)
+        + b[u,v,q]
+        + (c[u,v,q]/sqrt(FlowArcVar[u,v,q]**2 + d[u,v,q]**2))/(1000**2)
+    )*(FlowArcVar[u,v,q]/(1000**2))
+)/(100000**2);
+
+subject to pressureincompressor{(u,v,q) in COMPRESSORS}: PressureChangeVar[u,v,q] = PressureVar[v] - PressureVar[u];
+
+subject to pressureincontrolvalve{(u,v,q) in CONTROLVALVES}: PressureChangeVar[u,v,q] = PressureVar[u] - PressureVar[v];
+
+subject to exitheatpowerupperbound{u in SINKS}: 
+MixCalorificValue[u]*(FlowInOut[u]) <= HeatPowerUpper[u];
+
+subject to exitheatpowerlowerbound{u in SINKS}: 
+MixCalorificValue[u]*(FlowInOut[u]) >= HeatPowerLower[u];
+
+subject to ComplementarityOne{(u,v,q) in ARCS}:
+DirectionPos[u,v,q] + 10**(-6)-lambda_1[u,v,q]-lambda_2[u,v,q] = 0;
+
+subject to ComplemtarityTwo{(u,v,q) in ARCS}: DirectionPos[u,v,q] - FlowArcVar[u,v,q] >= 0;
+
+subject to ComplemtarityThree{(u,v,q) in ARCS}: lambda_1[u,v,q]*DirectionPos[u,v,q] <= 0;
+
+subject to ComplemtarityFour{(u,v,q) in ARCS}: lambda_2[u,v,q]* (DirectionPos[u,v,q] - FlowArcVar[u,v,q]) <= 0;
+
+subject to mixingnonsource{u in NODES diff SOURCES}: 
+-SlackMixingNonSource <=  
+  sum{(v,u,q) in ARCS} DirectionPos[v,u,q]*MixCalorificValue[u] 
++ sum{(u,v,q) in ARCS} (DirectionPos[u,v,q] - FlowArcVar[u,v,q])*MixCalorificValue[u] 
+- sum{(v,u,q) in ARCS} DirectionPos[v,u,q]*CalorificArcVar[v,u,q] 
+- sum{(u,v,q) in ARCS} (DirectionPos[u,v,q] - FlowArcVar[u,v,q])*CalorificArcVar[u,v,q] 
+<= SlackMixingNonSource;
+ 
+subject to mixingsourcenode{u in SOURCES}: 
+-SlackMixingSource <=
+  FlowInOut[u]*MixCalorificValue[u]
++ sum{(v,u,q) in ARCS} DirectionPos[v,u,q]*MixCalorificValue[u] 
++ sum{(u,v,q) in ARCS} (DirectionPos[u,v,q] - FlowArcVar[u,v,q])*MixCalorificValue[u] 
+- CalorificValue[u]*FlowInOut[u] 
+- sum{(v,u,q) in ARCS} DirectionPos[v,u,q]*CalorificArcVar[v,u,q]
+- sum{(u,v,q) in ARCS} (DirectionPos[u,v,q] - FlowArcVar[u,v,q])*CalorificArcVar[u,v,q]
+<= SlackMixingSource; 
+
+subject to propagationoutward{(u,v,q) in ARCS}: 
+(MixCalorificValue[u] -CalorificArcVar[u,v,q])*(DirectionPos[u,v,q]) = 0;
+                                                
+subject to propagationinward{(v,u,q) in ARCS}: 
+(MixCalorificValue[u] -CalorificArcVar[v,u,q])*(DirectionPos[v,u,q] - FlowArcVar[v,u,q]) = 0;
+                       
+
+]]></model>
+<data><![CDATA[data;
+data;
+
+### SETS ###
+
+set NODES :=
+entry03
+entry02
+entry01
+exit04
+exit05
+exit02
+exit01
+exit03
+N01
+N16
+N05b
+N06
+N09
+N11
+N08
+N04
+N10
+N05
+N05a
+N05c
+N13
+N12
+N101
+N05d
+;
+
+set SOURCES :=
+entry03
+entry02
+entry01
+;
+
+set SINKS :=
+exit04
+exit05
+exit02
+exit01
+exit03
+;
+
+set NAMES :=
+L15
+L08
+L09
+L07d
+L101
+L14
+L07a
+L07e
+L19
+L07f
+L13
+L12
+L04
+L01
+L07b
+L20
+L102
+L16
+L07c
+CS3
+CS2
+CS1
+Conn01
+re01
+CV01
+;
+
+set ARCS :=
+(N11, N13, L15)
+(N06, exit01, L08)
+(N06, N08, L09)
+(N05c, N05b, L07d)
+(entry03, entry02, L101)
+(N09, N11, L14)
+(N05, N05a, L07a)
+(N05d, N05b, L07e)
+(N16, exit03, L19)
+(N05b, N06, L07f)
+(N10, N13, L13)
+(N09, N10, L12)
+(N01, N04, L04)
+(entry01, N101, L01)
+(N05a, N05c, L07b)
+(N16, exit04, L20)
+(N05d, exit05, L102)
+(N12, exit02, L16)
+(N05a, N05d, L07c)
+(N13, N16, CS3)
+(N08, N09, CS2)
+(N04, N05, CS1)
+(entry02, N01, Conn01)
+(N101, N01, re01)
+(N11, N12, CV01)
+;
+
+set PIPES :=
+(N11, N13, L15)
+(N06, exit01, L08)
+(N06, N08, L09)
+(N05c, N05b, L07d)
+(entry03, entry02, L101)
+(N09, N11, L14)
+(N05, N05a, L07a)
+(N05d, N05b, L07e)
+(N16, exit03, L19)
+(N05b, N06, L07f)
+(N10, N13, L13)
+(N09, N10, L12)
+(N01, N04, L04)
+(entry01, N101, L01)
+(N05a, N05c, L07b)
+(N16, exit04, L20)
+(N05d, exit05, L102)
+(N12, exit02, L16)
+(N05a, N05d, L07c)
+;
+
+set  COMPRESSORS:=
+(N13, N16, CS3)
+(N08, N09, CS2)
+(N04, N05, CS1)
+;
+
+set  CONTROLVALVES:=
+(N11, N12, CV01)
+;
+
+set  VALVES:=
+;
+
+set  SHORTPIPES:=
+(entry02, N01, Conn01)
+;
+
+set  RESISTORS:=
+(N101, N01, re01)
+;
+
+### PARAMS ###
+
+
+# for NODES
+param: FlowInOut PressureLower PressureUpper :=
+entry03 50.15555555555556 30.0 70.0
+entry02 38.09722222222223 30.0 70.0
+entry01 62.94833333333334 30.0 70.0
+exit04 -33.933888888888895 30.0 70.0
+exit05 -27.77777777777778 30.0 70.0
+exit02 -27.77777777777778 20.0 35.0
+exit01 -27.77777777777778 30.0 70.0
+exit03 -33.933888888888895 30.0 70.0
+N01 0 30.0 70.0
+N16 0 30.0 70.0
+N05b 0 30.0 70.0
+N06 0 30.0 70.0
+N09 0 30.0 70.0
+N11 0 30.0 70.0
+N08 0 30.0 70.0
+N04 0 30.0 70.0
+N10 0 30.0 70.0
+N05 0 30.0 70.0
+N05a 0 30.0 70.0
+N05c 0 30.0 70.0
+N13 0 30.0 70.0
+N12 0 30.0 70.0
+N101 0 30.0 70.0
+N05d 0 30.0 70.0
+;
+
+# for Mean molar mass
+param AvgMolarMass =
+0.019265018463268196
+;
+param AvgGasTemp =
+274.207594373939
+;
+param AvgPressure =
+49.99999999999999
+;
+param AvgPseudoPressure =
+44.778070870387424
+;
+param AvgPseudoTemp =
+189.03082447319863
+;
+
+# for SOURCES
+param: CalorificValue GasTemperature MolarMass:=
+entry03 40.5680641288443 10.0 19.5
+entry02 35.69295876538446 10.0 18.5674
+entry01 36.28915283077253 10.0 19.5
+;
+
+# for SINKS
+param: FlowLowerNode FlowUpperNode :=
+exit04 -250.0 0
+exit05 -250.0 0
+exit02 -250.0 0
+exit01 -250.0 0
+exit03 -250.0 0
+;
+
+# for ARCS
+param: FlowLowerArc FlowUpperArc :=
+N11 N13 L15 0.0 100.0
+N06 exit01 L08 0.0 118.05555555555556
+N06 N08 L09 0.0 300.0
+N05c N05b L07d 0.0 450.0
+entry03 entry02 L101 0.0 205.0
+N09 N11 L14 0.0 150.0
+N05 N05a L07a 0.0 450.0
+N05d N05b L07e 0.0 450.0
+N16 exit03 L19 0.0 118.05555555555556
+N05b N06 L07f 0.0 450.0
+N10 N13 L13 0.0 150.0
+N09 N10 L12 0.0 161.11111111111111
+N01 N04 L04 0.0 405.0
+entry01 N101 L01 0.0 205.0
+N05a N05c L07b 0.0 450.0
+N16 exit04 L20 0.0 118.05555555555556
+N05d exit05 L102 0.0 205.0
+N12 exit02 L16 0.0 50.0
+N05a N05d L07c 0.0 450.0
+N13 N16 CS3 0.0 583.3333333333334
+N08 N09 CS2 0.0 583.3333333333334
+N04 N05 CS1 0.0 583.3333333333334
+entry02 N01 Conn01 0.0 200.0
+N101 N01 re01 0.0 833.3333333333334
+N11 N12 CV01 0.0 277.77777777777777
+;
+
+# for PIPES
+param: Roughness Diameter Length e d :=
+N11 N13 L15 1.2e-05 0.00085 50000.0 0.0000399039681354570 0.0000399039681354570
+N06 exit01 L08 1e-05 0.0009 30000.0 0.0000533270737104000 0.0000533270737104000
+N06 N08 L09 1e-05 0.0009 30000.0 0.0000533270737104000 0.0000533270737104000
+N05c N05b L07d 1e-05 0.0009 30000.0 0.0000533270737104000 0.0000533270737104000
+entry03 entry02 L101 1e-05 0.0011 50000.0 0.0000733438504118082 0.0000733438504118082
+N09 N11 L14 1.2e-05 0.00085 100000.0 0.0000399039681354570 0.0000399039681354570
+N05 N05a L07a 1e-05 0.0009 30000.0 0.0000533270737104000 0.0000533270737104000
+N05d N05b L07e 1e-05 0.0009 30000.0 0.0000533270737104000 0.0000533270737104000
+N16 exit03 L19 1e-05 0.0011 50000.0 0.0000733438504118082 0.0000733438504118082
+N05b N06 L07f 1e-05 0.0009 30000.0 0.0000533270737104000 0.0000533270737104000
+N10 N13 L13 1.2e-05 0.0009 50000.0 0.0000437123290379104 0.0000437123290379104
+N09 N10 L12 1.2e-05 0.0009 100000.0 0.0000437123290379104 0.0000437123290379104
+N01 N04 L04 1e-05 0.0021000000000000003 10000.0 0.000203589674754911 0.000203589674754911
+entry01 N101 L01 1e-05 0.0011 50000.0 0.0000733438504118082 0.0000733438504118082
+N05a N05c L07b 1e-05 0.0009 30000.0 0.0000533270737104000 0.0000533270737104000
+N16 exit04 L20 1e-05 0.0011 50000.0 0.0000733438504118082 0.0000733438504118082
+N05d exit05 L102 1e-05 0.0011 50000.0 0.0000733438504118082 0.0000733438504118082
+N12 exit02 L16 1e-05 0.0005 30000.0 0.0000208418172585813 0.0000208418172585813
+N05a N05d L07c 1e-05 0.0009 30000.0 0.0000533270737104000 0.0000533270737104000
+;
+
+# for COMPRESSORSTATIONS & CONTROLVAVES
+param:  PressureChangeUpper PressureChangeLower :=
+N13 N16 CS3 35.0 0
+N08 N09 CS2 40.0 0
+N04 N05 CS1 37.0 0
+N11 N12 CV01 60.0 0
+;
+]]></data>
+<commands><![CDATA[
+option knitro_options "maxtime_cpu = 3600";
+solve; display _total_solve_time;]]></commands>
+<comments><![CDATA[]]></comments>
+</document>

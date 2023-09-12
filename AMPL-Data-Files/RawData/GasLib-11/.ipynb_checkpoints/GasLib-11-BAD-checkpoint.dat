@@ -1,0 +1,160 @@
+data;
+
+### SETS ###
+
+set NODES :=
+entry03
+entry02
+entry01
+exit01
+exit02
+exit03
+N03
+N04
+N05
+N01
+N02
+;
+
+set SOURCES :=
+entry03
+entry02
+entry01
+;
+
+set SINKS :=
+exit01
+exit02
+exit03
+;
+
+set NAMES :=
+pipe02
+pipe06
+pipe03
+pipe04
+pipe05
+pipe08
+pipe07
+pipe01
+pipe09
+CS01
+CS02
+;
+
+set ARCS :=
+(N01, N02, pipe02)
+(N03, N04, pipe06)
+(entry02, N03, pipe03)
+(N02, exit01, pipe04)
+(N02, N04, pipe05)
+(N05, exit03, pipe08)
+(N05, exit02, pipe07)
+(entry01, entry03, pipe01)
+(N01, N02, pipe09)
+(entry03, N01, CS01)
+(N04, N05, CS02)
+;
+
+set PIPES :=
+(N01, N02, pipe02)
+(N03, N04, pipe06)
+(entry02, N03, pipe03)
+(N02, exit01, pipe04)
+(N02, N04, pipe05)
+(N05, exit03, pipe08)
+(N05, exit02, pipe07)
+(entry01, entry03, pipe01)
+(N01, N02, pipe09)
+;
+
+set  COMPRESSORS:=
+(entry03, N01, CS01)
+(N04, N05, CS02)
+;
+
+set  CONTROLVALVES:=
+;
+
+set  VALVES:=
+;
+
+set  SHORTPIPES:=
+;
+
+set  RESISTORS:=
+;
+
+### PARAMS ###
+
+
+# for NODES
+param: FlowInOut PressureLower PressureUpper :=
+entry03 0.0 40.0 70.0
+entry02 140.0 40.0 70.0
+entry01 160.0 40.0 70.0
+exit01 -100.0 40.0 70.0
+exit02 -120.0 40.0 60.0
+exit03 -80.0 40.0 60.0
+N03 0 40.0 70.0
+N04 0 40.0 70.0
+N05 0 40.0 70.0
+N01 0 40.0 70.0
+N02 0 40.0 70.0
+;
+
+# for Mean molar mass
+param AvgMolarMass :=
+18.5674
+;
+param AvgGasTemp :=
+1.8567399999999998
+;
+
+# for SOURCES
+param: CalorificValue GasTemperature MolarMass:=
+entry03 34.98683679197106 10.0 18.5674
+entry02 33.77445135806523 10.0 18.5674
+entry01 37.18019861884026 10.0 18.5674
+;
+
+# for SINKS
+param: FlowLowerNode FlowUpperNode :=
+exit01 -1250.0 -50.0
+exit02 -400.0 -80.0
+exit03 -600.0 -40.0
+;
+
+# for ARCS
+param: FlowLowerArc FlowUpperArc :=
+N01 N02 pipe02 -1100.0 1100.0
+N03 N04 pipe06 -1100.0 1100.0
+entry02 N03 pipe03 -1100.0 1100.0
+N02 exit01 pipe04 -1100.0 1100.0
+N02 N04 pipe05 -1100.0 1100.0
+N05 exit03 pipe08 -1100.0 1100.0
+N05 exit02 pipe07 -1100.0 1100.0
+entry01 entry03 pipe01 -1100.0 1100.0
+N01 N02 pipe09 -1100.0 1100.0
+entry03 N01 CS01 0.0 1100.0
+N04 N05 CS02 0.0 1100.0
+;
+
+# for PIPESPPPPPPPPPPP
+param: Roughness Diameter Length e d :=
+N01 N02 pipe02 0.0001 0.5 55000.0 0.0432070621162609 0.0432070621162609
+N03 N04 pipe06 0.0001 0.5 55000.0 0.0432070621162609 0.0432070621162609
+entry02 N03 pipe03 0.0001 0.5 55000.0 0.0432070621162609 0.0432070621162609
+N02 exit01 pipe04 0.0001 0.5 55000.0 0.0432070621162609 0.0432070621162609
+N02 N04 pipe05 0.0001 0.5 55000.0 0.0432070621162609 0.0432070621162609
+N05 exit03 pipe08 0.0001 0.5 55000.0 0.0432070621162609 0.0432070621162609
+N05 exit02 pipe07 0.0001 0.5 55000.0 0.0432070621162609 0.0432070621162609
+entry01 entry03 pipe01 0.0001 0.5 55000.0 0.0432070621162609 0.0432070621162609
+N01 N02 pipe09 0.0001 0.5 55000.0 0.0432070621162609 0.0432070621162609
+;
+
+# for COMPRESSORSTATIONS & CONTROLVAVES
+param:  PressureChangeUpper PressureChangeLower :=
+entry03 N01 CS01 30.0 0
+N04 N05 CS02 30.0 0
+;

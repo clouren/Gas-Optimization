@@ -1,0 +1,1410 @@
+data;
+
+### SETS ###
+
+set NODES :=
+source_6
+source_5
+source_1
+source_2
+source_4
+source_3
+sink_68
+sink_72
+sink_14
+sink_90
+sink_95
+sink_41
+sink_1
+sink_10
+sink_38
+sink_46
+sink_60
+sink_30
+sink_98
+sink_9
+sink_12
+sink_97
+sink_5
+sink_27
+sink_87
+sink_71
+sink_74
+sink_7
+sink_93
+sink_99
+sink_26
+sink_50
+sink_4
+sink_52
+sink_53
+sink_84
+sink_48
+sink_69
+sink_8
+sink_88
+sink_6
+sink_91
+sink_81
+sink_51
+sink_59
+sink_49
+sink_15
+sink_85
+sink_31
+sink_96
+sink_23
+sink_16
+sink_75
+sink_18
+sink_86
+sink_58
+sink_33
+sink_44
+sink_20
+sink_21
+sink_79
+sink_40
+sink_77
+sink_37
+sink_13
+sink_25
+sink_78
+sink_94
+sink_24
+sink_28
+sink_61
+sink_76
+sink_63
+sink_92
+sink_32
+sink_47
+sink_70
+sink_2
+sink_54
+sink_55
+sink_39
+sink_73
+sink_67
+sink_17
+sink_11
+sink_19
+sink_45
+sink_83
+sink_35
+sink_57
+sink_89
+sink_43
+sink_64
+sink_3
+sink_62
+sink_29
+sink_34
+sink_56
+sink_22
+sink_66
+sink_42
+sink_80
+sink_82
+sink_65
+sink_36
+innode_2
+innode_12
+innode_4
+innode_20
+innode_28
+innode_14
+innode_18
+innode_5
+innode_26
+innode_17
+innode_30
+innode_10
+innode_19
+innode_25
+innode_29
+innode_6
+innode_11
+innode_1
+innode_3
+innode_15
+innode_23
+innode_21
+innode_8
+innode_7
+innode_27
+innode_9
+innode_13
+innode_24
+innode_22
+innode_16
+;
+
+set SOURCES :=
+source_6
+source_5
+source_1
+source_2
+source_4
+source_3
+;
+
+set SINKS :=
+sink_68
+sink_72
+sink_14
+sink_90
+sink_95
+sink_41
+sink_1
+sink_10
+sink_38
+sink_46
+sink_60
+sink_30
+sink_98
+sink_9
+sink_12
+sink_97
+sink_5
+sink_27
+sink_87
+sink_71
+sink_74
+sink_7
+sink_93
+sink_99
+sink_26
+sink_50
+sink_4
+sink_52
+sink_53
+sink_84
+sink_48
+sink_69
+sink_8
+sink_88
+sink_6
+sink_91
+sink_81
+sink_51
+sink_59
+sink_49
+sink_15
+sink_85
+sink_31
+sink_96
+sink_23
+sink_16
+sink_75
+sink_18
+sink_86
+sink_58
+sink_33
+sink_44
+sink_20
+sink_21
+sink_79
+sink_40
+sink_77
+sink_37
+sink_13
+sink_25
+sink_78
+sink_94
+sink_24
+sink_28
+sink_61
+sink_76
+sink_63
+sink_92
+sink_32
+sink_47
+sink_70
+sink_2
+sink_54
+sink_55
+sink_39
+sink_73
+sink_67
+sink_17
+sink_11
+sink_19
+sink_45
+sink_83
+sink_35
+sink_57
+sink_89
+sink_43
+sink_64
+sink_3
+sink_62
+sink_29
+sink_34
+sink_56
+sink_22
+sink_66
+sink_42
+sink_80
+sink_82
+sink_65
+sink_36
+;
+
+set NAMES :=
+pipe_109
+pipe_9
+pipe_23
+pipe_80
+pipe_70
+pipe_72
+pipe_66
+pipe_2
+pipe_21
+pipe_63
+pipe_141
+pipe_121
+pipe_34
+pipe_129
+pipe_106
+pipe_125
+pipe_136
+pipe_11
+pipe_14
+pipe_6
+pipe_24
+pipe_128
+pipe_94
+pipe_3
+pipe_82
+pipe_95
+pipe_8
+pipe_16
+pipe_117
+pipe_124
+pipe_83
+pipe_5
+pipe_134
+pipe_91
+pipe_131
+pipe_29
+pipe_118
+pipe_13
+pipe_96
+pipe_75
+pipe_105
+pipe_76
+pipe_98
+pipe_135
+pipe_26
+pipe_18
+pipe_57
+pipe_42
+pipe_112
+pipe_41
+pipe_102
+pipe_97
+pipe_25
+pipe_122
+pipe_113
+pipe_90
+pipe_31
+pipe_61
+pipe_65
+pipe_89
+pipe_17
+pipe_32
+pipe_49
+pipe_127
+pipe_130
+pipe_101
+pipe_12
+pipe_20
+pipe_84
+pipe_140
+pipe_51
+pipe_107
+pipe_7
+pipe_111
+pipe_103
+pipe_139
+pipe_47
+pipe_99
+pipe_119
+pipe_100
+pipe_110
+pipe_88
+pipe_10
+pipe_59
+pipe_40
+pipe_48
+pipe_55
+pipe_58
+pipe_114
+pipe_1
+pipe_92
+pipe_38
+pipe_4
+pipe_79
+pipe_67
+pipe_33
+pipe_39
+pipe_44
+pipe_64
+pipe_73
+pipe_19
+pipe_68
+pipe_28
+pipe_56
+pipe_60
+pipe_120
+pipe_74
+pipe_123
+pipe_87
+pipe_116
+pipe_78
+pipe_71
+pipe_104
+pipe_126
+pipe_132
+pipe_36
+pipe_62
+pipe_85
+pipe_35
+pipe_137
+pipe_115
+pipe_50
+pipe_37
+pipe_108
+pipe_43
+pipe_54
+pipe_138
+pipe_53
+pipe_133
+pipe_86
+pipe_69
+pipe_45
+pipe_22
+pipe_30
+pipe_52
+pipe_77
+pipe_93
+pipe_46
+pipe_15
+pipe_27
+pipe_81
+compressorStation_15
+compressorStation_4
+compressorStation_20
+compressorStation_22
+compressorStation_27
+compressorStation_19
+compressorStation_1
+compressorStation_11
+compressorStation_21
+compressorStation_23
+compressorStation_18
+compressorStation_10
+compressorStation_17
+compressorStation_29
+compressorStation_3
+compressorStation_24
+compressorStation_5
+compressorStation_6
+compressorStation_7
+compressorStation_13
+compressorStation_12
+compressorStation_9
+compressorStation_8
+compressorStation_26
+compressorStation_14
+compressorStation_16
+compressorStation_25
+compressorStation_2
+compressorStation_28
+;
+
+set ARCS :=
+(sink_18, sink_72, pipe_109)
+(sink_45, sink_32, pipe_9)
+(sink_88, sink_87, pipe_23)
+(sink_39, innode_19, pipe_80)
+(sink_14, sink_33, pipe_70)
+(sink_33, sink_54, pipe_72)
+(sink_61, sink_10, pipe_66)
+(innode_26, sink_19, pipe_2)
+(sink_83, sink_88, pipe_21)
+(sink_43, sink_44, pipe_63)
+(sink_75, sink_42, pipe_141)
+(innode_9, sink_56, pipe_121)
+(sink_79, sink_77, pipe_34)
+(sink_68, sink_30, pipe_129)
+(sink_28, innode_29, pipe_106)
+(sink_71, source_4, pipe_125)
+(sink_48, sink_89, pipe_136)
+(sink_99, sink_92, pipe_11)
+(sink_93, sink_24, pipe_14)
+(sink_84, sink_1, pipe_6)
+(sink_65, sink_67, pipe_24)
+(sink_17, sink_35, pipe_128)
+(sink_47, sink_62, pipe_94)
+(sink_84, sink_85, pipe_3)
+(innode_21, sink_25, pipe_82)
+(sink_33, sink_53, pipe_95)
+(sink_22, sink_45, pipe_8)
+(sink_80, sink_81, pipe_16)
+(sink_51, innode_30, pipe_117)
+(sink_56, innode_1, pipe_124)
+(innode_22, sink_25, pipe_83)
+(sink_85, sink_32, pipe_5)
+(sink_48, sink_23, pipe_134)
+(innode_27, sink_64, pipe_91)
+(sink_20, sink_65, pipe_131)
+(sink_88, sink_96, pipe_29)
+(innode_30, innode_7, pipe_118)
+(sink_65, sink_1, pipe_13)
+(sink_53, sink_52, pipe_96)
+(sink_57, sink_39, pipe_75)
+(sink_26, sink_28, pipe_105)
+(source_2, sink_20, pipe_76)
+(source_5, sink_72, pipe_98)
+(sink_23, sink_21, pipe_135)
+(sink_88, sink_98, pipe_26)
+(sink_90, sink_11, pipe_18)
+(sink_66, sink_19, pipe_57)
+(sink_3, sink_94, pipe_42)
+(sink_49, sink_41, pipe_112)
+(sink_86, sink_3, pipe_41)
+(sink_25, sink_34, pipe_102)
+(sink_25, sink_26, pipe_97)
+(sink_87, sink_74, pipe_25)
+(innode_10, sink_56, pipe_122)
+(sink_41, sink_27, pipe_113)
+(innode_4, sink_29, pipe_90)
+(sink_96, sink_5, pipe_31)
+(sink_69, sink_70, pipe_61)
+(sink_45, sink_32, pipe_65)
+(innode_5, sink_29, pipe_89)
+(sink_81, sink_74, pipe_17)
+(sink_74, sink_60, pipe_32)
+(sink_59, sink_60, pipe_49)
+(sink_68, sink_17, pipe_127)
+(sink_63, sink_30, pipe_130)
+(sink_25, sink_34, pipe_101)
+(sink_92, sink_93, pipe_12)
+(sink_75, sink_83, pipe_20)
+(innode_17, sink_40, pipe_84)
+(sink_55, source_1, pipe_140)
+(sink_24, sink_78, pipe_51)
+(sink_52, sink_49, pipe_107)
+(source_5, source_2, pipe_7)
+(sink_49, sink_37, pipe_111)
+(sink_26, innode_11, pipe_103)
+(sink_55, sink_13, pipe_139)
+(sink_6, sink_21, pipe_47)
+(sink_25, sink_26, pipe_99)
+(innode_30, innode_8, pipe_119)
+(sink_25, sink_26, pipe_100)
+(sink_52, innode_14, pipe_110)
+(sink_40, sink_58, pipe_88)
+(sink_95, sink_99, pipe_10)
+(innode_24, sink_69, pipe_59)
+(sink_73, sink_86, pipe_40)
+(sink_4, sink_6, pipe_48)
+(sink_11, sink_31, pipe_55)
+(sink_66, sink_16, pipe_58)
+(sink_41, sink_51, pipe_114)
+(source_3, sink_22, pipe_1)
+(innode_28, sink_64, pipe_92)
+(sink_91, sink_97, pipe_38)
+(sink_84, sink_85, pipe_4)
+(innode_16, sink_36, pipe_79)
+(sink_61, sink_10, pipe_67)
+(sink_96, sink_79, pipe_33)
+(sink_97, sink_8, pipe_39)
+(sink_86, sink_7, pipe_44)
+(sink_44, sink_61, pipe_64)
+(innode_3, sink_57, pipe_73)
+(sink_76, sink_75, pipe_19)
+(sink_61, sink_46, pipe_68)
+(sink_88, sink_96, pipe_28)
+(sink_66, sink_15, pipe_56)
+(innode_25, sink_14, pipe_60)
+(sink_12, sink_18, pipe_120)
+(innode_2, sink_39, pipe_74)
+(sink_56, sink_48, pipe_123)
+(sink_20, sink_72, pipe_87)
+(sink_51, innode_30, pipe_116)
+(innode_15, sink_36, pipe_78)
+(innode_23, sink_54, pipe_71)
+(sink_26, innode_12, pipe_104)
+(sink_27, sink_68, pipe_126)
+(sink_68, sink_38, pipe_132)
+(sink_77, sink_73, pipe_36)
+(sink_70, sink_43, pipe_62)
+(innode_18, sink_40, pipe_85)
+(sink_67, sink_15, pipe_35)
+(sink_89, sink_55, pipe_137)
+(sink_51, innode_6, pipe_115)
+(sink_60, sink_24, pipe_50)
+(sink_91, sink_73, pipe_37)
+(sink_52, innode_13, pipe_108)
+(sink_94, sink_9, pipe_43)
+(sink_22, sink_45, pipe_54)
+(sink_21, sink_55, pipe_138)
+(sink_11, sink_2, pipe_53)
+(sink_38, sink_21, pipe_133)
+(sink_40, sink_58, pipe_86)
+(sink_61, sink_46, pipe_69)
+(sink_7, sink_62, pipe_45)
+(sink_83, sink_88, pipe_22)
+(sink_96, sink_5, pipe_30)
+(sink_78, sink_11, pipe_52)
+(sink_39, sink_50, pipe_77)
+(sink_33, sink_47, pipe_93)
+(sink_1, sink_59, pipe_46)
+(sink_24, sink_80, pipe_15)
+(sink_98, sink_82, pipe_27)
+(sink_39, innode_20, pipe_81)
+(sink_52, innode_12, compressorStation_15)
+(sink_61, innode_3, compressorStation_4)
+(sink_39, innode_16, compressorStation_20)
+(sink_39, innode_18, compressorStation_22)
+(sink_44, innode_23, compressorStation_27)
+(sink_39, innode_15, compressorStation_19)
+(sink_12, innode_26, compressorStation_1)
+(source_6, innode_8, compressorStation_11)
+(sink_39, innode_17, compressorStation_21)
+(sink_25, innode_19, compressorStation_23)
+(sink_51, innode_14, compressorStation_18)
+(source_6, innode_7, compressorStation_10)
+(sink_51, innode_13, compressorStation_17)
+(sink_66, innode_25, compressorStation_29)
+(sink_61, innode_2, compressorStation_3)
+(sink_25, innode_20, compressorStation_24)
+(sink_58, innode_4, compressorStation_5)
+(sink_58, innode_5, compressorStation_6)
+(sink_29, innode_27, compressorStation_7)
+(innode_10, innode_30, compressorStation_13)
+(innode_9, innode_30, compressorStation_12)
+(source_6, innode_6, compressorStation_9)
+(sink_29, innode_28, compressorStation_8)
+(sink_54, innode_22, compressorStation_26)
+(sink_52, innode_11, compressorStation_14)
+(sink_52, innode_29, compressorStation_16)
+(sink_54, innode_21, compressorStation_25)
+(sink_71, innode_1, compressorStation_2)
+(sink_66, innode_24, compressorStation_28)
+;
+
+set PIPES :=
+(sink_18, sink_72, pipe_109)
+(sink_45, sink_32, pipe_9)
+(sink_88, sink_87, pipe_23)
+(sink_39, innode_19, pipe_80)
+(sink_14, sink_33, pipe_70)
+(sink_33, sink_54, pipe_72)
+(sink_61, sink_10, pipe_66)
+(innode_26, sink_19, pipe_2)
+(sink_83, sink_88, pipe_21)
+(sink_43, sink_44, pipe_63)
+(sink_75, sink_42, pipe_141)
+(innode_9, sink_56, pipe_121)
+(sink_79, sink_77, pipe_34)
+(sink_68, sink_30, pipe_129)
+(sink_28, innode_29, pipe_106)
+(sink_71, source_4, pipe_125)
+(sink_48, sink_89, pipe_136)
+(sink_99, sink_92, pipe_11)
+(sink_93, sink_24, pipe_14)
+(sink_84, sink_1, pipe_6)
+(sink_65, sink_67, pipe_24)
+(sink_17, sink_35, pipe_128)
+(sink_47, sink_62, pipe_94)
+(sink_84, sink_85, pipe_3)
+(innode_21, sink_25, pipe_82)
+(sink_33, sink_53, pipe_95)
+(sink_22, sink_45, pipe_8)
+(sink_80, sink_81, pipe_16)
+(sink_51, innode_30, pipe_117)
+(sink_56, innode_1, pipe_124)
+(innode_22, sink_25, pipe_83)
+(sink_85, sink_32, pipe_5)
+(sink_48, sink_23, pipe_134)
+(innode_27, sink_64, pipe_91)
+(sink_20, sink_65, pipe_131)
+(sink_88, sink_96, pipe_29)
+(innode_30, innode_7, pipe_118)
+(sink_65, sink_1, pipe_13)
+(sink_53, sink_52, pipe_96)
+(sink_57, sink_39, pipe_75)
+(sink_26, sink_28, pipe_105)
+(source_2, sink_20, pipe_76)
+(source_5, sink_72, pipe_98)
+(sink_23, sink_21, pipe_135)
+(sink_88, sink_98, pipe_26)
+(sink_90, sink_11, pipe_18)
+(sink_66, sink_19, pipe_57)
+(sink_3, sink_94, pipe_42)
+(sink_49, sink_41, pipe_112)
+(sink_86, sink_3, pipe_41)
+(sink_25, sink_34, pipe_102)
+(sink_25, sink_26, pipe_97)
+(sink_87, sink_74, pipe_25)
+(innode_10, sink_56, pipe_122)
+(sink_41, sink_27, pipe_113)
+(innode_4, sink_29, pipe_90)
+(sink_96, sink_5, pipe_31)
+(sink_69, sink_70, pipe_61)
+(sink_45, sink_32, pipe_65)
+(innode_5, sink_29, pipe_89)
+(sink_81, sink_74, pipe_17)
+(sink_74, sink_60, pipe_32)
+(sink_59, sink_60, pipe_49)
+(sink_68, sink_17, pipe_127)
+(sink_63, sink_30, pipe_130)
+(sink_25, sink_34, pipe_101)
+(sink_92, sink_93, pipe_12)
+(sink_75, sink_83, pipe_20)
+(innode_17, sink_40, pipe_84)
+(sink_55, source_1, pipe_140)
+(sink_24, sink_78, pipe_51)
+(sink_52, sink_49, pipe_107)
+(source_5, source_2, pipe_7)
+(sink_49, sink_37, pipe_111)
+(sink_26, innode_11, pipe_103)
+(sink_55, sink_13, pipe_139)
+(sink_6, sink_21, pipe_47)
+(sink_25, sink_26, pipe_99)
+(innode_30, innode_8, pipe_119)
+(sink_25, sink_26, pipe_100)
+(sink_52, innode_14, pipe_110)
+(sink_40, sink_58, pipe_88)
+(sink_95, sink_99, pipe_10)
+(innode_24, sink_69, pipe_59)
+(sink_73, sink_86, pipe_40)
+(sink_4, sink_6, pipe_48)
+(sink_11, sink_31, pipe_55)
+(sink_66, sink_16, pipe_58)
+(sink_41, sink_51, pipe_114)
+(source_3, sink_22, pipe_1)
+(innode_28, sink_64, pipe_92)
+(sink_91, sink_97, pipe_38)
+(sink_84, sink_85, pipe_4)
+(innode_16, sink_36, pipe_79)
+(sink_61, sink_10, pipe_67)
+(sink_96, sink_79, pipe_33)
+(sink_97, sink_8, pipe_39)
+(sink_86, sink_7, pipe_44)
+(sink_44, sink_61, pipe_64)
+(innode_3, sink_57, pipe_73)
+(sink_76, sink_75, pipe_19)
+(sink_61, sink_46, pipe_68)
+(sink_88, sink_96, pipe_28)
+(sink_66, sink_15, pipe_56)
+(innode_25, sink_14, pipe_60)
+(sink_12, sink_18, pipe_120)
+(innode_2, sink_39, pipe_74)
+(sink_56, sink_48, pipe_123)
+(sink_20, sink_72, pipe_87)
+(sink_51, innode_30, pipe_116)
+(innode_15, sink_36, pipe_78)
+(innode_23, sink_54, pipe_71)
+(sink_26, innode_12, pipe_104)
+(sink_27, sink_68, pipe_126)
+(sink_68, sink_38, pipe_132)
+(sink_77, sink_73, pipe_36)
+(sink_70, sink_43, pipe_62)
+(innode_18, sink_40, pipe_85)
+(sink_67, sink_15, pipe_35)
+(sink_89, sink_55, pipe_137)
+(sink_51, innode_6, pipe_115)
+(sink_60, sink_24, pipe_50)
+(sink_91, sink_73, pipe_37)
+(sink_52, innode_13, pipe_108)
+(sink_94, sink_9, pipe_43)
+(sink_22, sink_45, pipe_54)
+(sink_21, sink_55, pipe_138)
+(sink_11, sink_2, pipe_53)
+(sink_38, sink_21, pipe_133)
+(sink_40, sink_58, pipe_86)
+(sink_61, sink_46, pipe_69)
+(sink_7, sink_62, pipe_45)
+(sink_83, sink_88, pipe_22)
+(sink_96, sink_5, pipe_30)
+(sink_78, sink_11, pipe_52)
+(sink_39, sink_50, pipe_77)
+(sink_33, sink_47, pipe_93)
+(sink_1, sink_59, pipe_46)
+(sink_24, sink_80, pipe_15)
+(sink_98, sink_82, pipe_27)
+(sink_39, innode_20, pipe_81)
+;
+
+set  COMPRESSORS:=
+(sink_52, innode_12, compressorStation_15)
+(sink_61, innode_3, compressorStation_4)
+(sink_39, innode_16, compressorStation_20)
+(sink_39, innode_18, compressorStation_22)
+(sink_44, innode_23, compressorStation_27)
+(sink_39, innode_15, compressorStation_19)
+(sink_12, innode_26, compressorStation_1)
+(source_6, innode_8, compressorStation_11)
+(sink_39, innode_17, compressorStation_21)
+(sink_25, innode_19, compressorStation_23)
+(sink_51, innode_14, compressorStation_18)
+(source_6, innode_7, compressorStation_10)
+(sink_51, innode_13, compressorStation_17)
+(sink_66, innode_25, compressorStation_29)
+(sink_61, innode_2, compressorStation_3)
+(sink_25, innode_20, compressorStation_24)
+(sink_58, innode_4, compressorStation_5)
+(sink_58, innode_5, compressorStation_6)
+(sink_29, innode_27, compressorStation_7)
+(innode_10, innode_30, compressorStation_13)
+(innode_9, innode_30, compressorStation_12)
+(source_6, innode_6, compressorStation_9)
+(sink_29, innode_28, compressorStation_8)
+(sink_54, innode_22, compressorStation_26)
+(sink_52, innode_11, compressorStation_14)
+(sink_52, innode_29, compressorStation_16)
+(sink_54, innode_21, compressorStation_25)
+(sink_71, innode_1, compressorStation_2)
+(sink_66, innode_24, compressorStation_28)
+;
+
+set  CONTROLVALVES:=
+;
+
+set  VALVES:=
+;
+
+set  SHORTPIPES:=
+;
+
+set  RESISTORS:=
+;
+
+### PARAMS ###
+
+
+# for NODES
+param: FlowInOut PressureLower PressureUpper :=
+source_6 660.0 1.01325 81.01325
+source_5 660.0 1.01325 81.01325
+source_1 660.0 1.01325 81.01325
+source_2 660.0 1.01325 81.01325
+source_4 660.0 1.01325 81.01325
+source_3 660.0 1.01325 81.01325
+sink_68 -40.0 1.01325 81.01325
+sink_72 -40.0 1.01325 81.01325
+sink_14 -40.0 1.01325 81.01325
+sink_90 -40.0 1.01325 81.01325
+sink_95 -40.0 1.01325 81.01325
+sink_41 -40.0 1.01325 81.01325
+sink_1 -40.0 1.01325 81.01325
+sink_10 -40.0 1.01325 81.01325
+sink_38 -40.0 1.01325 81.01325
+sink_46 -40.0 1.01325 81.01325
+sink_60 -40.0 1.01325 81.01325
+sink_30 -40.0 1.01325 81.01325
+sink_98 -40.0 1.01325 81.01325
+sink_9 -40.0 1.01325 81.01325
+sink_12 -40.0 1.01325 81.01325
+sink_97 -40.0 1.01325 81.01325
+sink_5 -40.0 1.01325 81.01325
+sink_27 -40.0 1.01325 81.01325
+sink_87 -40.0 1.01325 81.01325
+sink_71 -40.0 1.01325 81.01325
+sink_74 -40.0 1.01325 81.01325
+sink_7 -40.0 1.01325 81.01325
+sink_93 -40.0 1.01325 81.01325
+sink_99 -40.0 1.01325 81.01325
+sink_26 -40.0 1.01325 81.01325
+sink_50 -40.0 1.01325 81.01325
+sink_4 -40.0 1.01325 81.01325
+sink_52 -40.0 1.01325 81.01325
+sink_53 -40.0 1.01325 81.01325
+sink_84 -40.0 1.01325 81.01325
+sink_48 -40.0 1.01325 81.01325
+sink_69 -40.0 1.01325 81.01325
+sink_8 -40.0 1.01325 81.01325
+sink_88 -40.0 1.01325 81.01325
+sink_6 -40.0 1.01325 81.01325
+sink_91 -40.0 1.01325 81.01325
+sink_81 -40.0 1.01325 81.01325
+sink_51 -40.0 1.01325 81.01325
+sink_59 -40.0 1.01325 81.01325
+sink_49 -40.0 1.01325 81.01325
+sink_15 -40.0 1.01325 81.01325
+sink_85 -40.0 1.01325 81.01325
+sink_31 -40.0 1.01325 81.01325
+sink_96 -40.0 1.01325 81.01325
+sink_23 -40.0 1.01325 81.01325
+sink_16 -40.0 1.01325 81.01325
+sink_75 -40.0 1.01325 81.01325
+sink_18 -40.0 1.01325 81.01325
+sink_86 -40.0 1.01325 81.01325
+sink_58 -40.0 1.01325 81.01325
+sink_33 -40.0 1.01325 81.01325
+sink_44 -40.0 1.01325 81.01325
+sink_20 -40.0 1.01325 81.01325
+sink_21 -40.0 1.01325 81.01325
+sink_79 -40.0 1.01325 81.01325
+sink_40 -40.0 1.01325 81.01325
+sink_77 -40.0 1.01325 81.01325
+sink_37 -40.0 1.01325 81.01325
+sink_13 -40.0 1.01325 81.01325
+sink_25 -40.0 1.01325 81.01325
+sink_78 -40.0 1.01325 81.01325
+sink_94 -40.0 1.01325 81.01325
+sink_24 -40.0 1.01325 81.01325
+sink_28 -40.0 1.01325 81.01325
+sink_61 -40.0 1.01325 81.01325
+sink_76 -40.0 1.01325 81.01325
+sink_63 -40.0 1.01325 81.01325
+sink_92 -40.0 1.01325 81.01325
+sink_32 -40.0 1.01325 81.01325
+sink_47 -40.0 1.01325 81.01325
+sink_70 -40.0 1.01325 81.01325
+sink_2 -40.0 1.01325 81.01325
+sink_54 -40.0 1.01325 81.01325
+sink_55 -40.0 1.01325 81.01325
+sink_39 -40.0 1.01325 81.01325
+sink_73 -40.0 1.01325 81.01325
+sink_67 -40.0 1.01325 81.01325
+sink_17 -40.0 1.01325 81.01325
+sink_11 -40.0 1.01325 81.01325
+sink_19 -40.0 1.01325 81.01325
+sink_45 -40.0 1.01325 81.01325
+sink_83 -40.0 1.01325 81.01325
+sink_35 -40.0 1.01325 81.01325
+sink_57 -40.0 1.01325 81.01325
+sink_89 -40.0 1.01325 81.01325
+sink_43 -40.0 1.01325 81.01325
+sink_64 -40.0 1.01325 81.01325
+sink_3 -40.0 1.01325 81.01325
+sink_62 -40.0 1.01325 81.01325
+sink_29 -40.0 1.01325 81.01325
+sink_34 -40.0 1.01325 81.01325
+sink_56 -40.0 1.01325 81.01325
+sink_22 -40.0 1.01325 81.01325
+sink_66 -40.0 1.01325 81.01325
+sink_42 -40.0 1.01325 81.01325
+sink_80 -40.0 1.01325 81.01325
+sink_82 -40.0 1.01325 81.01325
+sink_65 -40.0 1.01325 81.01325
+sink_36 -40.0 1.01325 81.01325
+innode_2 0 1.01325 81.01325
+innode_12 0 1.01325 81.01325
+innode_4 0 1.01325 81.01325
+innode_20 0 1.01325 81.01325
+innode_28 0 1.01325 81.01325
+innode_14 0 1.01325 81.01325
+innode_18 0 1.01325 81.01325
+innode_5 0 1.01325 81.01325
+innode_26 0 1.01325 81.01325
+innode_17 0 1.01325 81.01325
+innode_30 0 1.01325 81.01325
+innode_10 0 1.01325 81.01325
+innode_19 0 1.01325 81.01325
+innode_25 0 1.01325 81.01325
+innode_29 0 1.01325 81.01325
+innode_6 0 1.01325 81.01325
+innode_11 0 1.01325 81.01325
+innode_1 0 1.01325 81.01325
+innode_3 0 1.01325 81.01325
+innode_15 0 1.01325 81.01325
+innode_23 0 1.01325 81.01325
+innode_21 0 1.01325 81.01325
+innode_8 0 1.01325 81.01325
+innode_7 0 1.01325 81.01325
+innode_27 0 1.01325 81.01325
+innode_9 0 1.01325 81.01325
+innode_13 0 1.01325 81.01325
+innode_24 0 1.01325 81.01325
+innode_22 0 1.01325 81.01325
+innode_16 0 1.01325 81.01325
+;
+
+# for Mean molar mass
+param AvgMolarMass =
+0.018567399999999998
+;
+param AvgGasTemp =
+273.15
+;
+param AvgPressure =
+41.01325
+;
+param AvgPseudoPressure =
+45.9293457336
+;
+param AvgPseudoTemp =
+188.549758911
+;
+
+# for SOURCES
+param: CalorificValue GasTemperature MolarMass:=
+source_6 35.10898043695986 0.0 18.5674
+source_5 36.081115519749 0.0 18.5674
+source_1 34.83563157861342 0.0 18.5674
+source_2 39.79192698348741 0.0 18.5674
+source_4 39.505102310523 0.0 18.5674
+source_3 37.111896245699256 0.0 18.5674
+;
+
+# for SINKS
+param: FlowLowerNode FlowUpperNode :=
+sink_68 -10000.0 0
+sink_72 -10000.0 0
+sink_14 -10000.0 0
+sink_90 -10000.0 0
+sink_95 -10000.0 0
+sink_41 -10000.0 0
+sink_1 -10000.0 0
+sink_10 -10000.0 0
+sink_38 -10000.0 0
+sink_46 -10000.0 0
+sink_60 -10000.0 0
+sink_30 -10000.0 0
+sink_98 -10000.0 0
+sink_9 -10000.0 0
+sink_12 -10000.0 0
+sink_97 -10000.0 0
+sink_5 -10000.0 0
+sink_27 -10000.0 0
+sink_87 -10000.0 0
+sink_71 -10000.0 0
+sink_74 -10000.0 0
+sink_7 -10000.0 0
+sink_93 -10000.0 0
+sink_99 -10000.0 0
+sink_26 -10000.0 0
+sink_50 -10000.0 0
+sink_4 -10000.0 0
+sink_52 -10000.0 0
+sink_53 -10000.0 0
+sink_84 -10000.0 0
+sink_48 -10000.0 0
+sink_69 -10000.0 0
+sink_8 -10000.0 0
+sink_88 -10000.0 0
+sink_6 -10000.0 0
+sink_91 -10000.0 0
+sink_81 -10000.0 0
+sink_51 -10000.0 0
+sink_59 -10000.0 0
+sink_49 -10000.0 0
+sink_15 -10000.0 0
+sink_85 -10000.0 0
+sink_31 -10000.0 0
+sink_96 -10000.0 0
+sink_23 -10000.0 0
+sink_16 -10000.0 0
+sink_75 -10000.0 0
+sink_18 -10000.0 0
+sink_86 -10000.0 0
+sink_58 -10000.0 0
+sink_33 -10000.0 0
+sink_44 -10000.0 0
+sink_20 -10000.0 0
+sink_21 -10000.0 0
+sink_79 -10000.0 0
+sink_40 -10000.0 0
+sink_77 -10000.0 0
+sink_37 -10000.0 0
+sink_13 -10000.0 0
+sink_25 -10000.0 0
+sink_78 -10000.0 0
+sink_94 -10000.0 0
+sink_24 -10000.0 0
+sink_28 -10000.0 0
+sink_61 -10000.0 0
+sink_76 -10000.0 0
+sink_63 -10000.0 0
+sink_92 -10000.0 0
+sink_32 -10000.0 0
+sink_47 -10000.0 0
+sink_70 -10000.0 0
+sink_2 -10000.0 0
+sink_54 -10000.0 0
+sink_55 -10000.0 0
+sink_39 -10000.0 0
+sink_73 -10000.0 0
+sink_67 -10000.0 0
+sink_17 -10000.0 0
+sink_11 -10000.0 0
+sink_19 -10000.0 0
+sink_45 -10000.0 0
+sink_83 -10000.0 0
+sink_35 -10000.0 0
+sink_57 -10000.0 0
+sink_89 -10000.0 0
+sink_43 -10000.0 0
+sink_64 -10000.0 0
+sink_3 -10000.0 0
+sink_62 -10000.0 0
+sink_29 -10000.0 0
+sink_34 -10000.0 0
+sink_56 -10000.0 0
+sink_22 -10000.0 0
+sink_66 -10000.0 0
+sink_42 -10000.0 0
+sink_80 -10000.0 0
+sink_82 -10000.0 0
+sink_65 -10000.0 0
+sink_36 -10000.0 0
+;
+
+# for ARCS
+param: FlowLowerArc FlowUpperArc :=
+sink_18 sink_72 pipe_109 -10000.0 10000.0
+sink_45 sink_32 pipe_9 -10000.0 10000.0
+sink_88 sink_87 pipe_23 -10000.0 10000.0
+sink_39 innode_19 pipe_80 -10000.0 10000.0
+sink_14 sink_33 pipe_70 -10000.0 10000.0
+sink_33 sink_54 pipe_72 -10000.0 10000.0
+sink_61 sink_10 pipe_66 -10000.0 10000.0
+innode_26 sink_19 pipe_2 -10000.0 10000.0
+sink_83 sink_88 pipe_21 -10000.0 10000.0
+sink_43 sink_44 pipe_63 -10000.0 10000.0
+sink_75 sink_42 pipe_141 -10000.0 10000.0
+innode_9 sink_56 pipe_121 -10000.0 10000.0
+sink_79 sink_77 pipe_34 -10000.0 10000.0
+sink_68 sink_30 pipe_129 -10000.0 10000.0
+sink_28 innode_29 pipe_106 -10000.0 10000.0
+sink_71 source_4 pipe_125 -10000.0 10000.0
+sink_48 sink_89 pipe_136 -10000.0 10000.0
+sink_99 sink_92 pipe_11 -10000.0 10000.0
+sink_93 sink_24 pipe_14 -10000.0 10000.0
+sink_84 sink_1 pipe_6 -10000.0 10000.0
+sink_65 sink_67 pipe_24 -10000.0 10000.0
+sink_17 sink_35 pipe_128 -10000.0 10000.0
+sink_47 sink_62 pipe_94 -10000.0 10000.0
+sink_84 sink_85 pipe_3 -10000.0 10000.0
+innode_21 sink_25 pipe_82 -10000.0 10000.0
+sink_33 sink_53 pipe_95 -10000.0 10000.0
+sink_22 sink_45 pipe_8 -10000.0 10000.0
+sink_80 sink_81 pipe_16 -10000.0 10000.0
+sink_51 innode_30 pipe_117 -10000.0 10000.0
+sink_56 innode_1 pipe_124 -10000.0 10000.0
+innode_22 sink_25 pipe_83 -10000.0 10000.0
+sink_85 sink_32 pipe_5 -10000.0 10000.0
+sink_48 sink_23 pipe_134 -10000.0 10000.0
+innode_27 sink_64 pipe_91 -10000.0 10000.0
+sink_20 sink_65 pipe_131 -10000.0 10000.0
+sink_88 sink_96 pipe_29 -10000.0 10000.0
+innode_30 innode_7 pipe_118 -10000.0 10000.0
+sink_65 sink_1 pipe_13 -10000.0 10000.0
+sink_53 sink_52 pipe_96 -10000.0 10000.0
+sink_57 sink_39 pipe_75 -10000.0 10000.0
+sink_26 sink_28 pipe_105 -10000.0 10000.0
+source_2 sink_20 pipe_76 -10000.0 10000.0
+source_5 sink_72 pipe_98 -10000.0 10000.0
+sink_23 sink_21 pipe_135 -10000.0 10000.0
+sink_88 sink_98 pipe_26 -10000.0 10000.0
+sink_90 sink_11 pipe_18 -10000.0 10000.0
+sink_66 sink_19 pipe_57 -10000.0 10000.0
+sink_3 sink_94 pipe_42 -10000.0 10000.0
+sink_49 sink_41 pipe_112 -10000.0 10000.0
+sink_86 sink_3 pipe_41 -10000.0 10000.0
+sink_25 sink_34 pipe_102 -10000.0 10000.0
+sink_25 sink_26 pipe_97 -10000.0 10000.0
+sink_87 sink_74 pipe_25 -10000.0 10000.0
+innode_10 sink_56 pipe_122 -10000.0 10000.0
+sink_41 sink_27 pipe_113 -10000.0 10000.0
+innode_4 sink_29 pipe_90 -10000.0 10000.0
+sink_96 sink_5 pipe_31 -10000.0 10000.0
+sink_69 sink_70 pipe_61 -10000.0 10000.0
+sink_45 sink_32 pipe_65 -10000.0 10000.0
+innode_5 sink_29 pipe_89 -10000.0 10000.0
+sink_81 sink_74 pipe_17 -10000.0 10000.0
+sink_74 sink_60 pipe_32 -10000.0 10000.0
+sink_59 sink_60 pipe_49 -10000.0 10000.0
+sink_68 sink_17 pipe_127 -10000.0 10000.0
+sink_63 sink_30 pipe_130 -10000.0 10000.0
+sink_25 sink_34 pipe_101 -10000.0 10000.0
+sink_92 sink_93 pipe_12 -10000.0 10000.0
+sink_75 sink_83 pipe_20 -10000.0 10000.0
+innode_17 sink_40 pipe_84 -10000.0 10000.0
+sink_55 source_1 pipe_140 -10000.0 10000.0
+sink_24 sink_78 pipe_51 -10000.0 10000.0
+sink_52 sink_49 pipe_107 -10000.0 10000.0
+source_5 source_2 pipe_7 -10000.0 10000.0
+sink_49 sink_37 pipe_111 -10000.0 10000.0
+sink_26 innode_11 pipe_103 -10000.0 10000.0
+sink_55 sink_13 pipe_139 -10000.0 10000.0
+sink_6 sink_21 pipe_47 -10000.0 10000.0
+sink_25 sink_26 pipe_99 -10000.0 10000.0
+innode_30 innode_8 pipe_119 -10000.0 10000.0
+sink_25 sink_26 pipe_100 -10000.0 10000.0
+sink_52 innode_14 pipe_110 -10000.0 10000.0
+sink_40 sink_58 pipe_88 -10000.0 10000.0
+sink_95 sink_99 pipe_10 -10000.0 10000.0
+innode_24 sink_69 pipe_59 -10000.0 10000.0
+sink_73 sink_86 pipe_40 -10000.0 10000.0
+sink_4 sink_6 pipe_48 -10000.0 10000.0
+sink_11 sink_31 pipe_55 -10000.0 10000.0
+sink_66 sink_16 pipe_58 -10000.0 10000.0
+sink_41 sink_51 pipe_114 -10000.0 10000.0
+source_3 sink_22 pipe_1 -10000.0 10000.0
+innode_28 sink_64 pipe_92 -10000.0 10000.0
+sink_91 sink_97 pipe_38 -10000.0 10000.0
+sink_84 sink_85 pipe_4 -10000.0 10000.0
+innode_16 sink_36 pipe_79 -10000.0 10000.0
+sink_61 sink_10 pipe_67 -10000.0 10000.0
+sink_96 sink_79 pipe_33 -10000.0 10000.0
+sink_97 sink_8 pipe_39 -10000.0 10000.0
+sink_86 sink_7 pipe_44 -10000.0 10000.0
+sink_44 sink_61 pipe_64 -10000.0 10000.0
+innode_3 sink_57 pipe_73 -10000.0 10000.0
+sink_76 sink_75 pipe_19 -10000.0 10000.0
+sink_61 sink_46 pipe_68 -10000.0 10000.0
+sink_88 sink_96 pipe_28 -10000.0 10000.0
+sink_66 sink_15 pipe_56 -10000.0 10000.0
+innode_25 sink_14 pipe_60 -10000.0 10000.0
+sink_12 sink_18 pipe_120 -10000.0 10000.0
+innode_2 sink_39 pipe_74 -10000.0 10000.0
+sink_56 sink_48 pipe_123 -10000.0 10000.0
+sink_20 sink_72 pipe_87 -10000.0 10000.0
+sink_51 innode_30 pipe_116 -10000.0 10000.0
+innode_15 sink_36 pipe_78 -10000.0 10000.0
+innode_23 sink_54 pipe_71 -10000.0 10000.0
+sink_26 innode_12 pipe_104 -10000.0 10000.0
+sink_27 sink_68 pipe_126 -10000.0 10000.0
+sink_68 sink_38 pipe_132 -10000.0 10000.0
+sink_77 sink_73 pipe_36 -10000.0 10000.0
+sink_70 sink_43 pipe_62 -10000.0 10000.0
+innode_18 sink_40 pipe_85 -10000.0 10000.0
+sink_67 sink_15 pipe_35 -10000.0 10000.0
+sink_89 sink_55 pipe_137 -10000.0 10000.0
+sink_51 innode_6 pipe_115 -10000.0 10000.0
+sink_60 sink_24 pipe_50 -10000.0 10000.0
+sink_91 sink_73 pipe_37 -10000.0 10000.0
+sink_52 innode_13 pipe_108 -10000.0 10000.0
+sink_94 sink_9 pipe_43 -10000.0 10000.0
+sink_22 sink_45 pipe_54 -10000.0 10000.0
+sink_21 sink_55 pipe_138 -10000.0 10000.0
+sink_11 sink_2 pipe_53 -10000.0 10000.0
+sink_38 sink_21 pipe_133 -10000.0 10000.0
+sink_40 sink_58 pipe_86 -10000.0 10000.0
+sink_61 sink_46 pipe_69 -10000.0 10000.0
+sink_7 sink_62 pipe_45 -10000.0 10000.0
+sink_83 sink_88 pipe_22 -10000.0 10000.0
+sink_96 sink_5 pipe_30 -10000.0 10000.0
+sink_78 sink_11 pipe_52 -10000.0 10000.0
+sink_39 sink_50 pipe_77 -10000.0 10000.0
+sink_33 sink_47 pipe_93 -10000.0 10000.0
+sink_1 sink_59 pipe_46 -10000.0 10000.0
+sink_24 sink_80 pipe_15 -10000.0 10000.0
+sink_98 sink_82 pipe_27 -10000.0 10000.0
+sink_39 innode_20 pipe_81 -10000.0 10000.0
+sink_52 innode_12 compressorStation_15 -10000.0 10000.0
+sink_61 innode_3 compressorStation_4 -10000.0 10000.0
+sink_39 innode_16 compressorStation_20 -10000.0 10000.0
+sink_39 innode_18 compressorStation_22 -10000.0 10000.0
+sink_44 innode_23 compressorStation_27 -10000.0 10000.0
+sink_39 innode_15 compressorStation_19 -10000.0 10000.0
+sink_12 innode_26 compressorStation_1 -10000.0 10000.0
+source_6 innode_8 compressorStation_11 -10000.0 10000.0
+sink_39 innode_17 compressorStation_21 -10000.0 10000.0
+sink_25 innode_19 compressorStation_23 -10000.0 10000.0
+sink_51 innode_14 compressorStation_18 -10000.0 10000.0
+source_6 innode_7 compressorStation_10 -10000.0 10000.0
+sink_51 innode_13 compressorStation_17 -10000.0 10000.0
+sink_66 innode_25 compressorStation_29 -10000.0 10000.0
+sink_61 innode_2 compressorStation_3 -10000.0 10000.0
+sink_25 innode_20 compressorStation_24 -10000.0 10000.0
+sink_58 innode_4 compressorStation_5 -10000.0 10000.0
+sink_58 innode_5 compressorStation_6 -10000.0 10000.0
+sink_29 innode_27 compressorStation_7 -10000.0 10000.0
+innode_10 innode_30 compressorStation_13 -10000.0 10000.0
+innode_9 innode_30 compressorStation_12 -10000.0 10000.0
+source_6 innode_6 compressorStation_9 -10000.0 10000.0
+sink_29 innode_28 compressorStation_8 -10000.0 10000.0
+sink_54 innode_22 compressorStation_26 -10000.0 10000.0
+sink_52 innode_11 compressorStation_14 -10000.0 10000.0
+sink_52 innode_29 compressorStation_16 -10000.0 10000.0
+sink_54 innode_21 compressorStation_25 -10000.0 10000.0
+sink_71 innode_1 compressorStation_2 -10000.0 10000.0
+sink_66 innode_24 compressorStation_28 -10000.0 10000.0
+;
+
+# for PIPES
+param: Roughness Diameter Length e d :=
+sink_18 sink_72 pipe_109 5e-05 1.0 6844.74898272 0.376714833424634 0.376714833424634
+sink_45 sink_32 pipe_9 5e-05 0.6 12536.236134899998 0.131354002266787 0.131354002266787
+sink_88 sink_87 pipe_23 5e-05 0.6 29067.2163505 0.131354002266787 0.131354002266787
+sink_39 innode_19 pipe_80 5e-05 1.0 84458.1685734 0.376714833424634 0.376714833424634
+sink_14 sink_33 pipe_70 5e-05 1.0 173659.70303200002 0.376714833424634 0.376714833424634
+sink_33 sink_54 pipe_72 5e-05 1.0 112865.012892 0.376714833424634 0.376714833424634
+sink_61 sink_10 pipe_66 5e-05 1.0 9158.22165979 0.376714833424634 0.376714833424634
+innode_26 sink_19 pipe_2 5e-05 1.0 100340.688215 0.376714833424634 0.376714833424634
+sink_83 sink_88 pipe_21 5e-05 0.6 69525.6850623 0.131354002266787 0.131354002266787
+sink_43 sink_44 pipe_63 5e-05 1.0 17417.5480678 0.376714833424634 0.376714833424634
+sink_75 sink_42 pipe_141 5e-05 0.6 9159.01470214 0.131354002266787 0.131354002266787
+innode_9 sink_56 pipe_121 5e-05 1.0 37045.99039 0.376714833424634 0.376714833424634
+sink_79 sink_77 pipe_34 5e-05 1.0 74204.5481958 0.376714833424634 0.376714833424634
+sink_68 sink_30 pipe_129 5e-05 0.4 50533.86622 0.0569185329683818 0.0569185329683818
+sink_28 innode_29 pipe_106 5e-05 1.0 37524.1310102 0.376714833424634 0.376714833424634
+sink_71 source_4 pipe_125 5e-05 1.0 3000.00847568 0.376714833424634 0.376714833424634
+sink_48 sink_89 pipe_136 5e-05 1.0 73579.2704439 0.376714833424634 0.376714833424634
+sink_99 sink_92 pipe_11 5e-05 0.6 64597.223853 0.131354002266787 0.131354002266787
+sink_93 sink_24 pipe_14 5e-05 0.6 43259.2640362 0.131354002266787 0.131354002266787
+sink_84 sink_1 pipe_6 5e-05 1.0 50039.072743 0.376714833424634 0.376714833424634
+sink_65 sink_67 pipe_24 5e-05 1.0 35220.8674457 0.376714833424634 0.376714833424634
+sink_17 sink_35 pipe_128 5e-05 0.6 78489.7646788 0.131354002266787 0.131354002266787
+sink_47 sink_62 pipe_94 5e-05 1.0 21281.5243847 0.376714833424634 0.376714833424634
+sink_84 sink_85 pipe_3 5e-05 0.4 17722.0417037 0.0569185329683818 0.0569185329683818
+innode_21 sink_25 pipe_82 5e-05 1.0 80621.8095869 0.376714833424634 0.376714833424634
+sink_33 sink_53 pipe_95 5e-05 1.0 37246.4955445 0.376714833424634 0.376714833424634
+sink_22 sink_45 pipe_8 5e-05 0.4 35640.0907784 0.0569185329683818 0.0569185329683818
+sink_80 sink_81 pipe_16 5e-05 0.6 38503.3883301 0.131354002266787 0.131354002266787
+sink_51 innode_30 pipe_117 5e-05 1.0 61179.7197437 0.376714833424634 0.376714833424634
+sink_56 innode_1 pipe_124 5e-05 1.0 135035.491093 0.376714833424634 0.376714833424634
+innode_22 sink_25 pipe_83 5e-05 1.0 80904.3280661 0.376714833424634 0.376714833424634
+sink_85 sink_32 pipe_5 5e-05 1.0 27575.9858722 0.376714833424634 0.376714833424634
+sink_48 sink_23 pipe_134 5e-05 1.0 6799.78855321 0.376714833424634 0.376714833424634
+innode_27 sink_64 pipe_91 5e-05 1.0 33438.206211900004 0.376714833424634 0.376714833424634
+sink_20 sink_65 pipe_131 5e-05 1.0 52638.2656276 0.376714833424634 0.376714833424634
+sink_88 sink_96 pipe_29 5e-05 1.0 85857.9820653 0.376714833424634 0.376714833424634
+innode_30 innode_7 pipe_118 5e-05 1.0 27318.149588 0.376714833424634 0.376714833424634
+sink_65 sink_1 pipe_13 5e-05 1.0 61293.0070234 0.376714833424634 0.376714833424634
+sink_53 sink_52 pipe_96 5e-05 1.0 63409.1674752 0.376714833424634 0.376714833424634
+sink_57 sink_39 pipe_75 5e-05 1.0 99696.9687718 0.376714833424634 0.376714833424634
+sink_26 sink_28 pipe_105 5e-05 0.6 47648.2477658 0.131354002266787 0.131354002266787
+source_2 sink_20 pipe_76 5e-05 1.0 42281.4742459 0.376714833424634 0.376714833424634
+source_5 sink_72 pipe_98 5e-05 1.0 10397.5682528 0.376714833424634 0.376714833424634
+sink_23 sink_21 pipe_135 5e-05 1.0 60895.6319046 0.376714833424634 0.376714833424634
+sink_88 sink_98 pipe_26 5e-05 0.6 46081.596533 0.131354002266787 0.131354002266787
+sink_90 sink_11 pipe_18 5e-05 1.0 162363.128696 0.376714833424634 0.376714833424634
+sink_66 sink_19 pipe_57 5e-05 1.0 61286.171295800006 0.376714833424634 0.376714833424634
+sink_3 sink_94 pipe_42 5e-05 1.0 39573.0643149 0.376714833424634 0.376714833424634
+sink_49 sink_41 pipe_112 5e-05 1.0 19465.572945400003 0.376714833424634 0.376714833424634
+sink_86 sink_3 pipe_41 5e-05 1.0 10380.0380319 0.376714833424634 0.376714833424634
+sink_25 sink_34 pipe_102 5e-05 0.6 14097.1093233 0.131354002266787 0.131354002266787
+sink_25 sink_26 pipe_97 5e-05 1.0 13796.8759156 0.376714833424634 0.376714833424634
+sink_87 sink_74 pipe_25 5e-05 1.0 73550.1565219 0.376714833424634 0.376714833424634
+innode_10 sink_56 pipe_122 5e-05 1.0 37887.833708599996 0.376714833424634 0.376714833424634
+sink_41 sink_27 pipe_113 5e-05 1.0 93300.8611373 0.376714833424634 0.376714833424634
+innode_4 sink_29 pipe_90 5e-05 1.0 87454.8381291 0.376714833424634 0.376714833424634
+sink_96 sink_5 pipe_31 5e-05 1.0 10634.4892592 0.376714833424634 0.376714833424634
+sink_69 sink_70 pipe_61 5e-05 1.0 3274.8442140999996 0.376714833424634 0.376714833424634
+sink_45 sink_32 pipe_65 5e-05 1.0 12536.236134899998 0.376714833424634 0.376714833424634
+innode_5 sink_29 pipe_89 5e-05 1.0 87864.05736790001 0.376714833424634 0.376714833424634
+sink_81 sink_74 pipe_17 5e-05 1.0 65028.38976060001 0.376714833424634 0.376714833424634
+sink_74 sink_60 pipe_32 5e-05 1.0 137584.529095 0.376714833424634 0.376714833424634
+sink_59 sink_60 pipe_49 5e-05 1.0 94839.1665755 0.376714833424634 0.376714833424634
+sink_68 sink_17 pipe_127 5e-05 0.4 56443.917503000004 0.0569185329683818 0.0569185329683818
+sink_63 sink_30 pipe_130 5e-05 0.6 12358.4448789 0.131354002266787 0.131354002266787
+sink_25 sink_34 pipe_101 5e-05 1.0 14097.1093233 0.376714833424634 0.376714833424634
+sink_92 sink_93 pipe_12 5e-05 0.4 23354.6170784 0.0569185329683818 0.0569185329683818
+sink_75 sink_83 pipe_20 5e-05 0.6 23219.4717484 0.131354002266787 0.131354002266787
+innode_17 sink_40 pipe_84 5e-05 1.0 83082.9611438 0.376714833424634 0.376714833424634
+sink_55 source_1 pipe_140 5e-05 1.0 15990.7836139 0.376714833424634 0.376714833424634
+sink_24 sink_78 pipe_51 5e-05 1.0 67770.9172483 0.376714833424634 0.376714833424634
+sink_52 sink_49 pipe_107 5e-05 1.0 55637.087791 0.376714833424634 0.376714833424634
+source_5 source_2 pipe_7 5e-05 1.0 35005.3067338 0.376714833424634 0.376714833424634
+sink_49 sink_37 pipe_111 5e-05 0.6 48033.1620915 0.131354002266787 0.131354002266787
+sink_26 innode_11 pipe_103 5e-05 1.0 81461.532131 0.376714833424634 0.376714833424634
+sink_55 sink_13 pipe_139 5e-05 1.0 38054.088697700005 0.376714833424634 0.376714833424634
+sink_6 sink_21 pipe_47 5e-05 1.0 19740.0494072 0.376714833424634 0.376714833424634
+sink_25 sink_26 pipe_99 5e-05 1.0 13796.8759156 0.376714833424634 0.376714833424634
+innode_30 innode_8 pipe_119 5e-05 1.0 26466.906710500003 0.376714833424634 0.376714833424634
+sink_25 sink_26 pipe_100 5e-05 0.6 13796.8759156 0.131354002266787 0.131354002266787
+sink_52 innode_14 pipe_110 5e-05 1.0 89179.21794999999 0.376714833424634 0.376714833424634
+sink_40 sink_58 pipe_88 5e-05 1.0 13264.2144669 0.376714833424634 0.376714833424634
+sink_95 sink_99 pipe_10 5e-05 0.6 60939.7150406 0.131354002266787 0.131354002266787
+innode_24 sink_69 pipe_59 5e-05 1.0 32476.949408700002 0.376714833424634 0.376714833424634
+sink_73 sink_86 pipe_40 5e-05 0.6 74213.0364192 0.131354002266787 0.131354002266787
+sink_4 sink_6 pipe_48 5e-05 0.6 25479.1293171 0.131354002266787 0.131354002266787
+sink_11 sink_31 pipe_55 5e-05 1.0 33603.2760489 0.376714833424634 0.376714833424634
+sink_66 sink_16 pipe_58 5e-05 1.0 60740.4521933 0.376714833424634 0.376714833424634
+sink_41 sink_51 pipe_114 5e-05 1.0 31776.602863699998 0.376714833424634 0.376714833424634
+source_3 sink_22 pipe_1 5e-05 0.6 50304.792058399995 0.131354002266787 0.131354002266787
+innode_28 sink_64 pipe_92 5e-05 1.0 33473.8696938 0.376714833424634 0.376714833424634
+sink_91 sink_97 pipe_38 5e-05 0.6 13882.590546899999 0.131354002266787 0.131354002266787
+sink_84 sink_85 pipe_4 5e-05 0.4 17722.0417037 0.0569185329683818 0.0569185329683818
+innode_16 sink_36 pipe_79 5e-05 1.0 25743.4218589 0.376714833424634 0.376714833424634
+sink_61 sink_10 pipe_67 5e-05 1.0 9158.22165979 0.376714833424634 0.376714833424634
+sink_96 sink_79 pipe_33 5e-05 1.0 37563.148777 0.376714833424634 0.376714833424634
+sink_97 sink_8 pipe_39 5e-05 1.0 59093.6131581 0.376714833424634 0.376714833424634
+sink_86 sink_7 pipe_44 5e-05 1.0 81583.8292956 0.376714833424634 0.376714833424634
+sink_44 sink_61 pipe_64 5e-05 1.0 77016.0839526 0.376714833424634 0.376714833424634
+innode_3 sink_57 pipe_73 5e-05 1.0 79066.7410985 0.376714833424634 0.376714833424634
+sink_76 sink_75 pipe_19 5e-05 0.6 6510.82318684 0.131354002266787 0.131354002266787
+sink_61 sink_46 pipe_68 5e-05 1.0 8869.54237053 0.376714833424634 0.376714833424634
+sink_88 sink_96 pipe_28 5e-05 0.6 85857.9820653 0.131354002266787 0.131354002266787
+sink_66 sink_15 pipe_56 5e-05 1.0 96065.0296604 0.376714833424634 0.376714833424634
+innode_25 sink_14 pipe_60 5e-05 1.0 26313.6684695 0.376714833424634 0.376714833424634
+sink_12 sink_18 pipe_120 5e-05 1.0 22659.1404524 0.376714833424634 0.376714833424634
+innode_2 sink_39 pipe_74 5e-05 1.0 169915.785856 0.376714833424634 0.376714833424634
+sink_56 sink_48 pipe_123 5e-05 1.0 51079.7762966 0.376714833424634 0.376714833424634
+sink_20 sink_72 pipe_87 5e-05 1.0 49223.121766200005 0.376714833424634 0.376714833424634
+sink_51 innode_30 pipe_116 5e-05 1.0 61179.7197437 0.376714833424634 0.376714833424634
+innode_15 sink_36 pipe_78 5e-05 1.0 24981.3111263 0.376714833424634 0.376714833424634
+innode_23 sink_54 pipe_71 5e-05 1.0 85824.94975449999 0.376714833424634 0.376714833424634
+sink_26 innode_12 pipe_104 5e-05 1.0 82408.77257670001 0.376714833424634 0.376714833424634
+sink_27 sink_68 pipe_126 5e-05 1.0 28202.1518902 0.376714833424634 0.376714833424634
+sink_68 sink_38 pipe_132 5e-05 1.0 22865.4790199 0.376714833424634 0.376714833424634
+sink_77 sink_73 pipe_36 5e-05 0.6 34864.4564753 0.131354002266787 0.131354002266787
+sink_70 sink_43 pipe_62 5e-05 1.0 54490.95433850001 0.376714833424634 0.376714833424634
+innode_18 sink_40 pipe_85 5e-05 1.0 83957.6803666 0.376714833424634 0.376714833424634
+sink_67 sink_15 pipe_35 5e-05 1.0 44307.578388099995 0.376714833424634 0.376714833424634
+sink_89 sink_55 pipe_137 5e-05 1.0 7053.12980961 0.376714833424634 0.376714833424634
+sink_51 innode_6 pipe_115 5e-05 1.0 75196.4293951 0.376714833424634 0.376714833424634
+sink_60 sink_24 pipe_50 5e-05 1.0 89395.5362133 0.376714833424634 0.376714833424634
+sink_91 sink_73 pipe_37 5e-05 1.0 10819.030875699998 0.376714833424634 0.376714833424634
+sink_52 innode_13 pipe_108 5e-05 1.0 89446.22745610001 0.376714833424634 0.376714833424634
+sink_94 sink_9 pipe_43 5e-05 1.0 25443.4906409 0.376714833424634 0.376714833424634
+sink_22 sink_45 pipe_54 5e-05 1.0 35640.0907784 0.376714833424634 0.376714833424634
+sink_21 sink_55 pipe_138 5e-05 1.0 44718.977333200004 0.376714833424634 0.376714833424634
+sink_11 sink_2 pipe_53 5e-05 0.6 9209.87894494 0.131354002266787 0.131354002266787
+sink_38 sink_21 pipe_133 5e-05 1.0 70219.51783580001 0.376714833424634 0.376714833424634
+sink_40 sink_58 pipe_86 5e-05 1.0 13264.2144669 0.376714833424634 0.376714833424634
+sink_61 sink_46 pipe_69 5e-05 1.0 8869.54237053 0.376714833424634 0.376714833424634
+sink_7 sink_62 pipe_45 5e-05 1.0 49535.2363296 0.376714833424634 0.376714833424634
+sink_83 sink_88 pipe_22 5e-05 1.0 69525.6850623 0.376714833424634 0.376714833424634
+sink_96 sink_5 pipe_30 5e-05 0.6 10634.4892592 0.131354002266787 0.131354002266787
+sink_78 sink_11 pipe_52 5e-05 1.0 10478.381755499999 0.376714833424634 0.376714833424634
+sink_39 sink_50 pipe_77 5e-05 0.6 92797.1468491 0.131354002266787 0.131354002266787
+sink_33 sink_47 pipe_93 5e-05 1.0 42519.4409038 0.376714833424634 0.376714833424634
+sink_1 sink_59 pipe_46 5e-05 1.0 60573.463859999996 0.376714833424634 0.376714833424634
+sink_24 sink_80 pipe_15 5e-05 0.6 39290.809462 0.131354002266787 0.131354002266787
+sink_98 sink_82 pipe_27 5e-05 0.6 49928.769459 0.131354002266787 0.131354002266787
+sink_39 innode_20 pipe_81 5e-05 1.0 84946.6519322 0.376714833424634 0.376714833424634
+;
+
+# for COMPRESSORSTATIONS & CONTROLVAVES
+param:  PressureChangeUpper PressureChangeLower :=
+sink_52 innode_12 compressorStation_15 40.0 0
+sink_61 innode_3 compressorStation_4 40.0 0
+sink_39 innode_16 compressorStation_20 40.0 0
+sink_39 innode_18 compressorStation_22 40.0 0
+sink_44 innode_23 compressorStation_27 40.0 0
+sink_39 innode_15 compressorStation_19 40.0 0
+sink_12 innode_26 compressorStation_1 40.0 0
+source_6 innode_8 compressorStation_11 40.0 0
+sink_39 innode_17 compressorStation_21 40.0 0
+sink_25 innode_19 compressorStation_23 40.0 0
+sink_51 innode_14 compressorStation_18 40.0 0
+source_6 innode_7 compressorStation_10 40.0 0
+sink_51 innode_13 compressorStation_17 40.0 0
+sink_66 innode_25 compressorStation_29 40.0 0
+sink_61 innode_2 compressorStation_3 40.0 0
+sink_25 innode_20 compressorStation_24 40.0 0
+sink_58 innode_4 compressorStation_5 40.0 0
+sink_58 innode_5 compressorStation_6 40.0 0
+sink_29 innode_27 compressorStation_7 40.0 0
+innode_10 innode_30 compressorStation_13 40.0 0
+innode_9 innode_30 compressorStation_12 40.0 0
+source_6 innode_6 compressorStation_9 40.0 0
+sink_29 innode_28 compressorStation_8 40.0 0
+sink_54 innode_22 compressorStation_26 40.0 0
+sink_52 innode_11 compressorStation_14 40.0 0
+sink_52 innode_29 compressorStation_16 40.0 0
+sink_54 innode_21 compressorStation_25 40.0 0
+sink_71 innode_1 compressorStation_2 40.0 0
+sink_66 innode_24 compressorStation_28 40.0 0
+;
