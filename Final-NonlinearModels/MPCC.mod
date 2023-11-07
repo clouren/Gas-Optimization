@@ -4,11 +4,7 @@
 ## We begin by including the shared sets and parameters.
 ## The user should uncomment which one is appropriate for specific location
 ## For the cluster, we only need the following:
-#include "shared-data.txt"
-
-## For a local run, one needs to give the full path to the file. For example
-## on Chris macbook it is:
-include "/Users/chris-macbook/Google Drive/My Drive/Geonhee-Gas Networks/Code/Updated AMPL Model Files-June 2023/shared-data.txt"
+include "/home/clouren/Documents/USNA/AMPL/Final-NonlinearModels/shared-data.txt"
 
 
 # Variables

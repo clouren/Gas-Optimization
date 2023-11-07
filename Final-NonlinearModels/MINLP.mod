@@ -6,11 +6,11 @@
 ## We begin by including the shared sets and parameters.
 ## The user should uncomment which one is appropriate for specific location
 ## For the cluster, we only need the following:
-#include "shared-data.txt"
+include "/home/clouren/Documents/USNA/AMPL/Final-NonlinearModels/shared-data.txt"
 
 ## For a local run, one needs to give the full path to the file. For example
 ## on Chris macbook it is:
-include "/Users/chris-macbook/Google Drive/My Drive/Geonhee-Gas Networks/Code/Updated AMPL Model Files-June 2023/shared-data.txt"
+#include "/Users/chris-macbook/Google Drive/My Drive/Geonhee-Gas Networks/Code/Updated AMPL Model Files-June 2023/shared-data.txt"
 
 # Variables
 
@@ -52,15 +52,21 @@ FlowInOut[u] = sum{(u,v,q) in ARCS} FlowArcVar[u,v,q] - sum{(v,u,q) in ARCS} Flo
 
 
 # Note (10**6) is divided to make sure convert units (m^4/s^4) into Pa (m^4/(s^4*10^(-6))) while (100000^2) is to change pressure unit Pa from Bar.
-subject to pressurelossinpipe{(u,v,q) in PIPES}: 
-Phi[u,v,q] = FrictionFactor[u,v,q]*
-(
-    (
-        sqrt(FlowArcVar[u,v,q]**2 + e[u,v,q]**2)
-        /(1000**2)
-        + b[u,v,q]
-        + (c[u,v,q]/sqrt(FlowArcVar[u,v,q]**2 + d[u,v,q]**2))/(1000**2)
-    )*(FlowArcVar[u,v,q]/(1000**2))
+#subject to pressurelossinpipe{(u,v,q) in PIPES}: 
+#Phi[u,v,q] = FrictionFactor[u,v,q]*
+#(
+#    (
+#        sqrt(FlowArcVar[u,v,q]**2 + e[u,v,q]**2)
+#        /(1000**2)
+#        + b[u,v,q]
+#        + (c[u,v,q]/sqrt(FlowArcVar[u,v,q]**2 + d[u,v,q]**2))/(1000**2)
+#    )*(FlowArcVar[u,v,q]/(1000**2))
+#)/(100000**2);
+
+
+subject to pressurelossinpipe{(u,v,q) in PIPES}:
+Phi[u,v,q] = FrictionFactor[u,v,q] * (
+(DirectionPos[u,v,q]/(1000**2))**2 - (DirectionNeg[u,v,q]/(1000**2))**2
 )/(100000**2);
 
 subject to pressurebalance{(u,v,q) in PIPES}: 
