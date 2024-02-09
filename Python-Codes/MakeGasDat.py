@@ -7,7 +7,6 @@ import GasParsing as gp
 import importlib
 import numpy as np
 import sympy as sym
-import math
 from datetime import datetime
 now = datetime.now()
 date_time_str = now.strftime("%y%m%d-%H%M") +'.dat'
@@ -236,7 +235,7 @@ def makeGasDat(network_file, scenario_file):
         if data_type=='source':
             obj = network[(data_type, name)]
             flow = obj.get_flow()
-            # Conversion from m^3/hr to kg/s
+            # TODO Conversion to?
             flow = float(flow)*(1000/3600)
             if (flow < 0):
                 flow = -flow
@@ -246,7 +245,6 @@ def makeGasDat(network_file, scenario_file):
         if data_type == 'sink':
             obj = network[(data_type, name)]
             flow = obj.get_flow()
-            # Conversion from m^3/hr to kg/s
             flow = float(flow)*(1000/3600)
             if (flow > 0):
                 flow = -flow
@@ -287,8 +285,7 @@ def makeGasDat(network_file, scenario_file):
     Avg_Pressure = sum(weighted_pressure)/sum(flow_list)
     Avg_Pseudopressure = sum(weighted_pseudopressure)/sum(flow_list)
     Avg_Pseudotemp = sum(weighted_pseudotemp)/sum(flow_list)
-    Avg_Compressibility = 1 - 3.52*(Avg_Pressure/Avg_Pseudopressure)*math.exp(-2.26*Avg_GasTemp/Avg_Pseudotemp) + 0.274*(Avg_Pressure/Avg_Pseudopressure)**2*math.exp(-1.878*Avg_GasTemp/Avg_Pseudotemp)
-    Specific_GasConstant = 8.314462/Avg_MolarMass
+    
     
     
     lines.append('param AvgMolarMass =')
@@ -411,8 +408,6 @@ def makeGasDat(network_file, scenario_file):
     
     for data_type, name in network:
         if data_type == 'pipe':
-            # Update the calculated parameters
-            # so they match ampl
             obj = network[(data_type, name)]
             in_node = obj._from
             out_node = obj.to
@@ -426,26 +421,20 @@ def makeGasDat(network_file, scenario_file):
             g = 9.80665 # m/s**2
             beta = obj.roughness/(obj.diameter*3.71) #unitless
             alpha = 2.51 * pi * v * obj.diameter /4 # m**3/s
-            #gamma = 8*obj.length / (pi**(2) * g * obj.diameter**(5)) # s**2/m**5
-            gamma = obj.length * Specific_GasConstant * Avg_GasTemp * Avg_Compressibility/( (pi*(obj.diameter/2)**2 )**2 * obj.diameter)
+            gamma = 8*obj.length / (pi**(2) * g * obj.diameter**(5)) # s**2/m**5
             delta = 2*alpha / (beta*np.log(10))
-
-            # Now, we calculate the approximation using
-            # the equations in Appendix for pressure loss
             a = sym.Symbol('a')
-            e_squared_coeff = obj.diameter/2;
-            e_coeff = 2*delta * obj.diameter - 64*10**(-6) * (obj.diameter/2)**2*pi * (2*np.log10(beta))**2
-            constant_term = (np.log(beta)+1)*delta**2
-            # Pick the second one because it is the positive root
-            ad = sym.solve(e_squared_coeff*a**2 +e_coeff*a + constant_term, a)[1]
-            #ad0 = sym.solve(e_squared_coeff*a**2 +e_coeff*a + constant_term, a)[0]
-            # print(f'The first is {ad0} and the second is {ad}')
+            A = 0.5
+            B = ((2*delta) - 128*obj.length*v*(4*np.log10(beta)**2
+                    /(pi*g*obj.diameter**(4)*gamma)))
+            C = (np.log(beta) + 1)*delta**2
 
-            #A = 0.5
-            #B = ((2*delta) - 128*obj.length*v*(4*np.log10(beta)**2
-            #        /(pi*g*obj.diameter**(4)*gamma)))
-            #C = (np.log(beta) + 1)*delta**2
-
+            ad = sym.solve(A*a**2 +B*a + C, a)[1]
+            ac = sym.solve(A*a**2 +B*a + C, a)[0]
+            print(f'first and second roots are {ac} {ad}')
+            print(f'beta is {beta}')
+            print(f'delta is {delta}')
+            print(f'C is {C}')
             
             lines.append(f'{temp} {obj.roughness} {obj.diameter} {obj.length} {ad} {ad}')
     lines.append(';')          

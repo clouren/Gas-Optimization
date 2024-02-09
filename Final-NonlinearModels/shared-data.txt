@@ -1,12 +1,7 @@
 ### This file contains the shared sets and parameters used across
 ### all models. Each individual model should thus include this file.
 ### Note that in order to property include this file locally, one needs to give the full
-### path to the file. For example, on Chris' macbook, the path to this file is:
-### "/Users/chris-macbook/Google Drive/My Drive/Geonhee-Gas Networks/Code/Updated AMPL Model Files-June 2023"
-###
-### On the NEOS cluster this should not be necesary.
-
-
+### path to the file. 
 ### Sets used across all models
 
 set NODES;   # This is the set of all nodes (V)
@@ -143,9 +138,6 @@ param Roughness{(u,v,q) in PIPES};
 # friction parameter unitless
 param Beta{(u,v,q) in PIPES} = Roughness[u,v,q]/(3.71*Diameter[u,v,q]);
  
-# friction factor of pipe a (from High detail) (lambda with tilda) unitless
-#param FrictionFactor{(u,v,q) in PIPES} = (2*log10(Beta[u,v,q]))**(2);
-
 # friction parameter lambda of pipe a (from High detail) (unitless)
 # From Chapter 2 equation 2.19
 # This is for the turbulent case and phi approx
