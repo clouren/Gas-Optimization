@@ -19,17 +19,21 @@ Files and folders in this distribution:
 
 
 Authors:
+
     Geonhee Kim, Chris Lourenco, Daphne Skipper, Luze Xu
 
 Contact:
+
     Please contact Chris Lourenco (lourenco@usna.edu)
     or Daphne Skipper (skipper@usna.edu)
     
 Copyright: 
+
     This software is copyright by Geonhee Kim, Chris Lourenco, 
     Daphne Skipper, Luze Xu. All Rights Reserved.
 
 Disclaimer:
+
     This code is distributed in the hope that it will be useful, but
     WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
     or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
