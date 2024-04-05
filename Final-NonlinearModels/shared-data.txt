@@ -1,7 +1,8 @@
 ### This file contains the shared sets and parameters used across
 ### all models. Each individual model should thus include this file.
 ### Note that in order to property include this file locally, one needs to give the full
-### path to the file. 
+### path to the file.
+
 ### Sets used across all models
 
 set NODES;   # This is the set of all nodes (V)
@@ -160,7 +161,7 @@ param FrictionFactor{(u,v,q) in PIPES} = Gamma[u,v,q]*Lambda[u,v,q];
 # modeler parameters NOTE This is chosen by the modeler. unitless.
 param e{(u,v,q) in PIPES}; 
 
-# This is caculated from MATLAB and used to calculate param d. unitless.
+# This is caculated from python and used to calculate param d. unitless.
 param d{(u,v,q) in PIPES};
 
 # friction factor of alpha m**3/s
@@ -181,6 +182,9 @@ param SlackPressure = 0.01;
 param SlackMixingNonSource = 0.01;
 
 param SlackMixingSource = 0.01;
+
+# This is the global density parameter used throughout all of GasLib-582
+param density = 0.82;
 
 ### End of file. Each model should include this file and then define any local parameters
 ### and begin with defining variables and the model itself.

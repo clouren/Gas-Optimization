@@ -1,10 +1,18 @@
-### This is the MPCC model
+### This is the NLP model. All variants of pressure loss and cuts are given in this main file
+### The user can uncomment or comment out whichever variant they desire to test
 
 ## We begin by including the shared sets and parameters.
-include "./shared-data.txt"
+## This is done by the ampl command include with the path to
+## shared-data.txt
+## For Example, on Chris desktop, it is:
+include "/home/clouren/Documents/USNA/AMPL/Final-NonlinearModels/shared-data.txt"
 
 
+#-----------------------------------------------------------------------------------
+#-----------------------------------------------------------------------------------
 # Variables
+#-----------------------------------------------------------------------------------
+#-----------------------------------------------------------------------------------
 
 # Node Variables
 
@@ -37,81 +45,105 @@ var Phi{(u,v,q) in PIPES};
 # change of pressure (delta)
 var PressureChangeVar{(u,v,q) in UNI} >= PressureChangeLower[u,v,q], <= PressureChangeUpper[u,v,q];
 
+#-----------------------------------------------------------------------------------
+#-----------------------------------------------------------------------------------
+# Objective function
+#-----------------------------------------------------------------------------------
+#-----------------------------------------------------------------------------------
+
 minimize Z: sum{(u,v,q) in COMPRESSORS} PressureChangeVar[u,v,q];
 
-subject to massbalance{u in NODES}: 
-FlowInOut[u] = sum{(u,v,q) in ARCS} FlowArcVar[u,v,q] - sum{(v,u,q) in ARCS} FlowArcVar[v,u,q];
+#-----------------------------------------------------------------------------------
+#-----------------------------------------------------------------------------------
+# Constraints
+#-----------------------------------------------------------------------------------
+#-----------------------------------------------------------------------------------
+
+#-----------------------------------------------------------------------------------
+## Square Root Pressure Loss Approximation
+#-----------------------------------------------------------------------------------
+
+# Note density is multiplied to convert units into Pa while (100000^2) is to change pressure unit Pa from Bar.
+## Also, note that there is a notation change here. To match the paper,
+## the parameter b below should be a and c should be b
+subject to pressurelossinpipe{(u,v,q) in PIPES}: 
+Phi[u,v,q] = FrictionFactor[u,v,q]* (FlowArcVar[u,v,q]*(density)) * 
+(
+    (
+        sqrt( (FlowArcVar[u,v,q]*density)**2 + e[u,v,q]**2)
+        + b[u,v,q]
+        + (c[u,v,q]/sqrt( (FlowArcVar[u,v,q]*density)**2 + d[u,v,q]**2))
+    )
+)/(100000**2);
+
+#-----------------------------------------------------------------------------------
+## PKr Pressure Loss Reformulation
+## This causes lots of infeasibility in the NLP
+#-----------------------------------------------------------------------------------
+
+# Foiled out version
+#subject to pressurelossinpipe{(u,v,q) in PIPES}:
+#Phi[u,v,q] =  FrictionFactor[u,v,q] * 
+#(
+#    2*DirectionPos[u,v,q]*FlowArcVar[u,v,q]*density**2
+#    - (FlowArcVar[u,v,q]*density)**2
+#)/(100000**2);
+
+# Factored version
+#subject to pressurelossinpipe{(u,v,q) in PIPES}:
+#SlackPressure<= 
+#Phi[u,v,q] - FrictionFactor[u,v,q] * 
+#(
+#    (DirectionPos[u,v,q]*density)**2 
+#    - (DirectionPos[u,v,q] - FlowArcVar[u,v,q])**2 * density**2
+#)/(100000**2)
+#<= SlackPressure;
+
+#-----------------------------------------------------------------------------------
+## Flow splitting pressure loss approximation
+#-----------------------------------------------------------------------------------
+
+# Define a few helper parameters
+# a in paper
+#param a_param{ (u,v,q) in PIPES} = b[u,v,q];
+#param b_param{ (u,v,q) in PIPES} = c[u,v,q] +( e[u,v,q]**2)/2;
+#param d_param{ (u,v,q) in PIPES} = (Diameter[u,v,q]*FrictionFactor[u,v,q] 
+#/ (64 * Eta*Area[u,v,q] * Gamma[u,v,q] - 2 * Epsilon[u,v,q] * Diameter[u,v,q] * FrictionFactor[u,v,q]))*b_param[u,v,q];
+
+#subject to pressurelossinpipe{(u,v,q) in PIPES}:
+#Phi[u,v,q] = FrictionFactor[u,v,q] *
+#( 
+#    -(FlowArcVar[u,v,q]*density)**2 
+#    + 
+#    2 * (DirectionPos[u,v,q]*density) * (FlowArcVar[u,v,q]*density)
+#    +
+#    a_param[u,v,q]*(FlowArcVar[u,v,q]*density)
+#    +
+#    (b_param[u,v,q] * FlowArcVar[u,v,q]*density)
+#    /
+#    (2*DirectionPos[u,v,q]*density - FlowArcVar[u,v,q]*density + d_param[u,v,q])
+#) /(100000**2);
+
+
+#-----------------------------------------------------------------------------------
+# Misc pressure constraints
+#-----------------------------------------------------------------------------------
 
 subject to pressurebalance{(u,v,q) in PIPES}: 
 -SlackPressure <=
 PressureVar[v]**2 - PressureVar[u]**2  + Phi[u,v,q]
 <= SlackPressure;
 
-# Our models do not incoporate the physical properties of
-# valves and resistors thus we treat them like short pipes.
-# short pipes are just connectors so there is no ability for pressure loss
-# thus, we set the pressure variables equal to each other across
-# all of these network components.
-subject to pressurebalance2{(u,v,q) in SHORTPIPES union VALVES union RESISTORS}: 
-PressureVar[v] = PressureVar[u];
-
-# Note (10**6) is divided to make sure convert units (m^4/s^4) into Pa (m^4/(s^4*10^(-6))) while #(100000^2) is to change pressure unit Pa from Bar.
-#subject to pressurelossinpipe{(u,v,q) in PIPES}: 
-#Phi[u,v,q] = FrictionFactor[u,v,q]*
-#(
-#    (
-#        sqrt(FlowArcVar[u,v,q]**2 + e[u,v,q]**2)
-#        /(1000**2)
-#        + b[u,v,q]
-#        + (c[u,v,q]/sqrt(FlowArcVar[u,v,q]**2 + d[u,v,q]**2))/(1000**2)
-#    )*(FlowArcVar[u,v,q]/(1000**2))
-#)/(100000**2);
-
-
-# This one is the bivariate pressure loss
-#subject to pressurelossinpipe{(u,v,q) in PIPES}:
-#Phi[u,v,q] = FrictionFactor[u,v,q] * (
-#(DirectionPos[u,v,q]/(1000**2))**2 - ( (DirectionPos[u,v,q]-FlowArcVar[u,v,q]) /(1000**2))**2
-#)/(100000**2);
-
-# This one is causing infeasibility
-#subject to pressurelossinpipe{(u,v,q) in PIPES}:
-#Phi[u,v,q] = FrictionFactor[u,v,q] * ( 
-#2*DirectionPos[u,v,q] * FlowArcVar[u,v,q]/(1000**4) - (FlowArcVar[u,v,q]/(1000**2))**2
-#)/(100000**2);
-
-
-param a_param{ (u,v,q) in PIPES} = 2 * Epsilon[u,v,q]; 
-param b_param{ (u,v,q) in PIPES} = 1 ;
-param c_param{ (u,v,q) in PIPES} = b_param[u,v,q] / ( (log(Beta[u,v,q]) + 1)*Epsilon[u,v,q]**2);
-param g_param{ (u,v,q) in PIPES} = b_param[u,v,q]*Lambda[u,v,q] / ( 16*pi*Eta*Diameter[u,v,q] - 2*Epsilon[u,v,q]*Lambda[u,v,q]);
-
-subject to pressurelossinpipe_alternateapprox{(u,v,q) in PIPES}:
--SlackPressure <= Phi[u,v,q] - 
-FrictionFactor[u,v,q] * 
-( 
- (  (DirectionPos[u,v,q]/(1000**2))**2- ((DirectionPos[u,v,q]-FlowArcVar[u,v,q])/(1000**2))**2 
- #+ 2 * ( DirectionPos[u,v,q]/(1000**2)) * ( FlowArcVar[u,v,q]/(1000**2))
- )
- + 
- a_param[u,v,q] * (FlowArcVar[u,v,q])/(1000**2)
-  +
-  (
-  ( 
-   b_param[u,v,q]  * (FlowArcVar[u,v,q])/(1000**2)
-   )
-    /
-   (
-    c_param[u,v,q] * (( 2*DirectionPos[u,v,q]-FlowArcVar[u,v,q])/(1000**2))
-    +g_param[u,v,q]
-    )
-    )
-)/(100000**2) <= SlackPressure;
-
-
 subject to pressureincompressor{(u,v,q) in COMPRESSORS}: PressureChangeVar[u,v,q] = PressureVar[v] - PressureVar[u];
 
 subject to pressureincontrolvalve{(u,v,q) in CONTROLVALVES}: PressureChangeVar[u,v,q] = PressureVar[u] - PressureVar[v];
+
+#-----------------------------------------------------------------------------------
+# Flow balance
+#----------------------------------------------------------------------------------
+
+subject to massbalance{u in NODES}: 
+FlowInOut[u] = sum{(u,v,q) in ARCS} FlowArcVar[u,v,q] - sum{(v,u,q) in ARCS} FlowArcVar[v,u,q];
 
 subject to exitheatpowerupperbound{u in SINKS}: 
 MixCalorificValue[u]*(FlowInOut[u]) <= HeatPowerUpper[u];
@@ -119,14 +151,18 @@ MixCalorificValue[u]*(FlowInOut[u]) <= HeatPowerUpper[u];
 subject to exitheatpowerlowerbound{u in SINKS}: 
 MixCalorificValue[u]*(FlowInOut[u]) >= HeatPowerLower[u];
 
-subject to ComplementarityOne{(u,v,q) in ARCS}:
-DirectionPos[u,v,q] + 10**(-6)-lambda_1[u,v,q]-lambda_2[u,v,q] = 0;
+#subject to ComplementarityOne{(u,v,q) in ARCS}:
+#DirectionPos[u,v,q] + 10**(-6)-lambda_1[u,v,q]-lambda_2[u,v,q] = 0;
 
-subject to ComplemtarityTwo{(u,v,q) in ARCS}: DirectionPos[u,v,q] - FlowArcVar[u,v,q] >= 0;
+#subject to ComplemtarityTwo{(u,v,q) in ARCS}: DirectionPos[u,v,q] - FlowArcVar[u,v,q] >= 0;
 
-subject to ComplemtarityThree{(u,v,q) in ARCS}: lambda_1[u,v,q]*DirectionPos[u,v,q] <= 0;
+#subject to ComplemtarityThree{(u,v,q) in ARCS}: lambda_1[u,v,q]*DirectionPos[u,v,q] <= 0;
 
-subject to ComplemtarityFour{(u,v,q) in ARCS}: lambda_2[u,v,q]* (DirectionPos[u,v,q] - FlowArcVar[u,v,q]) <= 0;
+#subject to ComplemtarityFour{(u,v,q) in ARCS}: lambda_2[u,v,q]* (DirectionPos[u,v,q] - FlowArcVar[u,v,q]) <= 0;
+
+#-----------------------------------------------------------------------------------
+# Mixing
+#-----------------------------------------------------------------------------------
 
 subject to mixingnonsource{u in NODES diff SOURCES}: 
 -SlackMixingNonSource <=  
@@ -154,12 +190,12 @@ subject to propagationinward{(v,u,q) in ARCS}:
 
 
 
-###############################################################################
-###############################################################################
-# Linear McCormick Constraints
-###############################################################################
-###############################################################################
-# Can use C style block comments
+#-----------------------------------------------------------------------------------
+#-----------------------------------------------------------------------------------
+# Linear McCormick Constraints-Should not be included
+#-----------------------------------------------------------------------------------
+#-----------------------------------------------------------------------------------
+# Commented out.
 
 /*
 # Redundant constraint for MPCC
@@ -239,4 +275,5 @@ subject to McCormickArcOutBound4 {(u,v,q) in ARCS}:
     FlowArcVar[u,v,q] * CalorificArcVar[u,v,q] <= 
     FlowArcVar[u,v,q]*CalorificUpper + FlowLowerArc[u,v,q]*CalorificArcVar[u,v,q] 
     - FlowLowerArc[u,v,q]*CalorificUpper;
+
 */

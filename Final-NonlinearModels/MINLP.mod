@@ -1,12 +1,19 @@
-### This is the MINLP model
+### This is the MINLP model. All variants of flow splitting and cuts are given
+### in this main file. The user can uncomment or comment out whichever
+### variant they desire to test within the main MINLP.
 
 
 ## We begin by including the shared sets and parameters.
-## If this does not work, give the full path to the file.
-include "./shared-data.txt"
+## This is done by the ampl command include with the path to
+## shared-data.txt
+## For Example, on Chris desktop, it is:
+include "/home/clouren/Documents/USNA/AMPL/Final-NonlinearModels/shared-data.txt"
 
-
+#-----------------------------------------------------------------------------------
+#-----------------------------------------------------------------------------------
 # Variables
+#-----------------------------------------------------------------------------------
+#-----------------------------------------------------------------------------------
 
 # Node Variables
 
@@ -39,90 +46,73 @@ var Phi{(u,v,q) in PIPES};
 # change of pressure (delta)
 var PressureChangeVar{(u,v,q) in UNI} >=PressureChangeLower[u,v,q], <= PressureChangeUpper[u,v,q];
 
+#-----------------------------------------------------------------------------------
+#-----------------------------------------------------------------------------------
+# Objective function
+#-----------------------------------------------------------------------------------
+#-----------------------------------------------------------------------------------
+
 minimize Z: sum{(u,v,q) in COMPRESSORS} PressureChangeVar[u,v,q];
 
-subject to massbalance{u in NODES}: 
-FlowInOut[u] = sum{(u,v,q) in ARCS} FlowArcVar[u,v,q] - sum{(v,u,q) in ARCS} FlowArcVar[v,u,q];
+#-----------------------------------------------------------------------------------
+#-----------------------------------------------------------------------------------
+# Constraints
+#-----------------------------------------------------------------------------------
+#-----------------------------------------------------------------------------------
 
+#-----------------------------------------------------------------------------------
 ## Square Root Pressure Loss Approximation
-# Note (10**6) is divided to make sure convert units (m^4/s^4) into Pa (m^4/(s^4*10^(-6))) while (100000^2) is to change pressure unit Pa from Bar.
+#-----------------------------------------------------------------------------------
+
+# Note density is multiplied to convert units into Pa while (100000^2) is to change pressure unit Pa from Bar.
+## Also, note that there is a notation change here. To match the paper,
+## the parameter b below should be a and c should be b
 #subject to pressurelossinpipe{(u,v,q) in PIPES}: 
 #Phi[u,v,q] = FrictionFactor[u,v,q]*
 #(
 #    (
-#        sqrt(FlowArcVar[u,v,q]**2 + e[u,v,q]**2)
-#        /(1000**2)
+#        sqrt( (FlowArcVar[u,v,q]*density)**2 + e[u,v,q]**2)
 #        + b[u,v,q]
-#        + (c[u,v,q]/sqrt(FlowArcVar[u,v,q]**2 + d[u,v,q]**2))/(1000**2)
-#    )*(FlowArcVar[u,v,q]/(1000**2))
+#        + (c[u,v,q]/sqrt( (FlowArcVar[u,v,q]*density)**2 + d[u,v,q]**2))
+#    )*(FlowArcVar[u,v,q]*(density))
 #)/(100000**2);
 
+#-----------------------------------------------------------------------------------
+## PKr Pressure Loss Reformulation
+#-----------------------------------------------------------------------------------
+#subject to pressurelossinpipe{(u,v,q) in PIPES}:
+#Phi[u,v,q] = FrictionFactor[u,v,q] * (
+#(DirectionPos[u,v,q]* (density))**2 - (DirectionNeg[u,v,q]*(density))**2
+#)/(100000**2);
 
-## Univariate Pressure Loss Reformulation
+#-----------------------------------------------------------------------------------
+## Flow splitting pressure loss approximation
+#-----------------------------------------------------------------------------------
+
+# Define a few helper parameters
+# a in paper
+param a_param{ (u,v,q) in PIPES} = b[u,v,q];
+param b_param{ (u,v,q) in PIPES} = c[u,v,q] +( e[u,v,q]**2)/2;
+param d_param{ (u,v,q) in PIPES} = (Diameter[u,v,q]*FrictionFactor[u,v,q] 
+/ (64 * Eta*Area[u,v,q] * Gamma[u,v,q] - 2 * Epsilon[u,v,q] * Diameter[u,v,q] * FrictionFactor[u,v,q]))*b_param[u,v,q];
+
+# MINLP version
 subject to pressurelossinpipe{(u,v,q) in PIPES}:
-Phi[u,v,q] = FrictionFactor[u,v,q] * (
-(DirectionPos[u,v,q]/(1000**2))**2 - (DirectionNeg[u,v,q]/(1000**2))**2
-)/(100000**2);
-
-# Alternate approximation of pressure loss using the beta gamma variables
-# and no square root. Currently is equation E.1 in paper.
-# To begin with, define a few helper parameters
-
-/*
-param a_param{ (u,v,q) in PIPES} = 2 * Epsilon[u,v,q]; 
-param b_param{ (u,v,q) in PIPES} = 0.001 ;
-param c_param{ (u,v,q) in PIPES} = b_param[u,v,q] / ( (log(Beta[u,v,q]) + 1)*Epsilon[u,v,q]**2);
-param g_param{ (u,v,q) in PIPES} = b_param[u,v,q]*Lambda[u,v,q] / ( 16*pi*Eta*Diameter[u,v,q] - 2*Epsilon[u,v,q]*Lambda[u,v,q]);
-
-param b_over_c{ (u,v,q) in PIPES} = b_param[u,v,q] / c_param[u,v,q];
-param b_over_g{ (u,v,q) in PIPES} = b_param[u,v,q] / g_param[u,v,q];
-
-subject to pressurelossinpipe_alternateapprox{(u,v,q) in PIPES}:
--SlackPressure <= Phi[u,v,q] - 
-FrictionFactor[u,v,q] * 
+Phi[u,v,q] = FrictionFactor[u,v,q] *
 ( 
- (  (DirectionPos[u,v,q]+ DirectionNeg[u,v,q])/(1000**2) * (DirectionPos[u,v,q]-DirectionNeg[u,v,q])/(1000**2))
- + 
- a_param[u,v,q] * (DirectionPos[u,v,q]-DirectionNeg[u,v,q])/(1000**2)
-  +
-  (
-  ( 
-   b_param[u,v,q]  * (DirectionPos[u,v,q]-DirectionNeg[u,v,q])/(1000**2)
-   )
+    (DirectionPos[u,v,q]*density)**2 - (DirectionNeg[u,v,q]*density)**2
+    +
+    a_param[u,v,q] *  (DirectionPos[u,v,q]-DirectionNeg[u,v,q])*density
+    +
+    ( b_param[u,v,q] * ( DirectionPos[u,v,q]-DirectionNeg[u,v,q])*density )
     /
-   (
-    c_param[u,v,q] * (( DirectionPos[u,v,q]+DirectionNeg[u,v,q])/(1000**2))
-    +g_param[u,v,q]
-    )
-    )
-)/(100000**2) <= SlackPressure;
-*/
+    ( (DirectionPos[u,v,q] + DirectionNeg[u,v,q])*density + d_param[u,v,q])
+)/(100000**2) ;
 
-# Alternate approximation of pressure loss using the beta gamma variables but not having
-# a fraction. This is currently equations E.5 and E.6 from the paper
+#-----------------------------------------------------------------------------------
+# Misc pressure constraints
+#-----------------------------------------------------------------------------------
 
-# New variable epsilon
-#var PL_Epsilon{(u,v,q) in PIPES};
-
-#subject to pressurelossinpipe_alternateapprox_nofrac{(u,v,q) in PIPES}:
-#-SlackPressure <=
-#Phi[u,v,q] - FrictionFactor[u,v,q] * 
-#( 
-#    (DirectionPos[u,v,q]/(1000**2))**2 - (DirectionNeg[u,v,q]/(1000**2))**2
-#    + a_param[u,v,q] * ( (DirectionPos[u,v,q]-DirectionNeg[u,v,q])/(1000**2)) 
-#    + PL_Epsilon[u,v,q]
-#)/(100000**2)
-#<= SlackPressure;
-
-
-#subject to EpsilonDefConstraint{(u,v,q) in PIPES}:
-#-SlackPressure <= 
-#b_param[u,v,q]*(DirectionPos[u,v,q]-DirectionNeg[u,v,q])/(1000**2)
-#- c_param[u,v,q] * (DirectionPos[u,v,q]/(1000**2) * PL_Epsilon[u,v,q] + 
-#            DirectionNeg[u,v,q]/(1000**2)*PL_Epsilon[u,v,q]) - 
-#            g_param[u,v,q]*PL_Epsilon[u,v,q] 
-#    <= SlackPressure;
-   
 subject to pressurebalance{(u,v,q) in PIPES}: 
 -SlackPressure <=
 PressureVar[v]**2 - PressureVar[u]**2  + Phi[u,v,q]
@@ -132,14 +122,25 @@ subject to pressureincompresser{(u,v,q) in COMPRESSORS}: PressureChangeVar[u,v,q
 
 subject to pressureincontrolvavle{(u,v,q) in CONTROLVALVES}: PressureChangeVar[u,v,q] = PressureVar[u] - PressureVar[v];
 
-subject to exitheatpowerupperbound{u in SINKS}: MixCalorificValue[u]*FlowInOut[u] <= HeatPowerUpper[u];
-subject to exitheatpowerlowerbound{u in SINKS}: MixCalorificValue[u]*FlowInOut[u] >= HeatPowerLower[u];
+#-----------------------------------------------------------------------------------
+# Flow balance
+#-----------------------------------------------------------------------------------
+
+subject to massbalance{u in NODES}: 
+FlowInOut[u] = sum{(u,v,q) in ARCS} FlowArcVar[u,v,q] - sum{(v,u,q) in ARCS} FlowArcVar[v,u,q];
 
 subject to Flowsplittingone{(u,v,q) in ARCS}: FlowArcVar[u,v,q] = DirectionPos[u,v,q] - DirectionNeg[u,v,q];
 
 subject to Flowsplittingtwo{(u,v,q) in ARCS}: DirectionNeg[u,v,q] <= (Direction[u,v,q]-1)*FlowLowerArc[u,v,q];
 
 subject to Flowsplittingthree{(u,v,q) in ARCS}: DirectionPos[u,v,q] <= Direction[u,v,q]*FlowUpperArc[u,v,q];
+
+subject to exitheatpowerupperbound{u in SINKS}: MixCalorificValue[u]*FlowInOut[u] <= HeatPowerUpper[u];
+subject to exitheatpowerlowerbound{u in SINKS}: MixCalorificValue[u]*FlowInOut[u] >= HeatPowerLower[u];
+
+#-----------------------------------------------------------------------------------
+# Mixing
+#-----------------------------------------------------------------------------------
 
 subject to mixingnonsource{u in NODES diff SOURCES}:   
        -SlackMixingNonSource <= 
@@ -189,14 +190,12 @@ subject to propagationinwardlower{(v,u,q) in ARCS}:
         (MixCalorificValue[u] -CalorificArcVar[v,u,q])
         >= -(CalorificUpper - CalorificLower)*Direction[v,u,q];
 
-###############################################################################
-###############################################################################
+#-----------------------------------------------------------------------------------
+#-----------------------------------------------------------------------------------
 # Linear McCormick Constraints
-###############################################################################
-###############################################################################
-# Can use C style block comments
+#-----------------------------------------------------------------------------------
+#-----------------------------------------------------------------------------------
 
-/*
 # Redundant constraint for MINLP
 #subject to McCormickNodeInBound1 {(v,u,q) in ARCS}: 
 #    DirectionPos[v,u,q]*MixCalorificValue[u]  >=  DirectionPos[v,u,q]*CalorificLower;
@@ -270,11 +269,11 @@ subject to McCormickArcOutBound3 {(u,v,q) in ARCS}:
 #    DirectionNeg[u,v,q]*CalorificUpper;
 
 
-###############################################################################
-###############################################################################
-# Bounds using d variables
-###############################################################################
-###############################################################################
+#-----------------------------------------------------------------------------------
+#-----------------------------------------------------------------------------------
+# RLT Constraints
+#-----------------------------------------------------------------------------------
+#-----------------------------------------------------------------------------------
 
 # most simple bounds are the term Buv H = 0 if duv = 0 and yuv H = 0 if duv = 1
 # this can be achieved with the following four constraints
@@ -291,13 +290,12 @@ DirectionNeg[u,v,q] * MixCalorificValue[u] <= (1-Direction[u,v,q])* abs(FlowLowe
 
 subject to SimpleDUpperBound4{(u,v,q) in ARCS}:
 DirectionNeg[u,v,q] * CalorificArcVar[u,v,q] <= (1-Direction[u,v,q])* abs(FlowLowerArc[u,v,q]) * CalorificUpper;
-*/
 
-###############################################################################
-###############################################################################
+#-----------------------------------------------------------------------------------
+#-----------------------------------------------------------------------------------
 # Flow cuts using d
-###############################################################################
-###############################################################################
+#-----------------------------------------------------------------------------------
+#-----------------------------------------------------------------------------------
 
 # At internal nodes if there is flow in there must be flow flow out 
 
@@ -324,7 +322,6 @@ sum{ (u,v,q) in ARCS} Direction[u,v,q] + ( sum{ (v,u,q) in ARCS} (1 - Direction[
 # There must be flow out of an exit node
 subject to FlowExitNodes{u in SINKS}:
 sum{ (v,u,q) in ARCS} Direction[v,u,q] + ( sum{ (u,v,q) in ARCS} (1 - Direction[u,v,q])) >= 1;
-
 
 
 
