@@ -1,10 +1,7 @@
 ### This file contains the shared sets and parameters used across
 ### all models. Each individual model should thus include this file.
 ### Note that in order to property include this file locally, one needs to give the full
-### path to the file. For example, on Chris' macbook, the path to this file is:
-### "/Users/chris-macbook/Google Drive/My Drive/Geonhee-Gas Networks/Code/Updated AMPL Model Files-June 2023"
-###
-### On the NEOS cluster this should not be necesary.
+### path to the file
 
 
 ### Sets used across all models
