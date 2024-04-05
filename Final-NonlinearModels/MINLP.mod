@@ -64,9 +64,8 @@ minimize Z: sum{(u,v,q) in COMPRESSORS} PressureChangeVar[u,v,q];
 ## Square Root Pressure Loss Approximation
 #-----------------------------------------------------------------------------------
 
-# Note density is multiplied to convert units into Pa while (100000^2) is to change pressure unit Pa from Bar.
-## Also, note that there is a notation change here. To match the paper,
-## the parameter b below should be a and c should be b
+# Note density is multiplied to convert units into Pa while (100000^2) 
+# is to change pressure unit Pa from Bar.
 #subject to pressurelossinpipe{(u,v,q) in PIPES}: 
 #Phi[u,v,q] = FrictionFactor[u,v,q]*
 #(

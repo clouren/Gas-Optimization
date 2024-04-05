@@ -63,9 +63,8 @@ minimize Z: sum{(u,v,q) in COMPRESSORS} PressureChangeVar[u,v,q];
 ## Square Root Pressure Loss Approximation
 #-----------------------------------------------------------------------------------
 
-# Note density is multiplied to convert units into Pa while (100000^2) is to change pressure unit Pa from Bar.
-## Also, note that there is a notation change here. To match the paper,
-## the parameter b below should be a and c should be b
+# Note density is multiplied to convert units into Pa 
+# while (100000^2) is to change pressure unit Pa from Bar.
 subject to pressurelossinpipe{(u,v,q) in PIPES}: 
 Phi[u,v,q] = FrictionFactor[u,v,q]* (FlowArcVar[u,v,q]*(density)) * 
 (
@@ -105,10 +104,10 @@ Phi[u,v,q] = FrictionFactor[u,v,q]* (FlowArcVar[u,v,q]*(density)) *
 
 # Define a few helper parameters
 # a in paper
-param a_param{ (u,v,q) in PIPES} = a[u,v,q];
-param b_param{ (u,v,q) in PIPES} = b[u,v,q] +( e[u,v,q]**2)/2;
-param d_param{ (u,v,q) in PIPES} = (Diameter[u,v,q]*FrictionFactor[u,v,q] 
-/ (64 * Eta*Area[u,v,q] * omega[u,v,q] - 2 * t[u,v,q] * Diameter[u,v,q] * FrictionFactor[u,v,q]))*b_param[u,v,q];
+#param a_param{ (u,v,q) in PIPES} = a[u,v,q];
+#param b_param{ (u,v,q) in PIPES} = b[u,v,q] +( e[u,v,q]**2)/2;
+#param d_param{ (u,v,q) in PIPES} = (Diameter[u,v,q]*FrictionFactor[u,v,q] 
+#/ (64 * Eta*Area[u,v,q] * omega[u,v,q] - 2 * t[u,v,q] * Diameter[u,v,q] * FrictionFactor[u,v,q]))*b_param[u,v,q];
 
 #subject to pressurelossinpipe{(u,v,q) in PIPES}:
 #Phi[u,v,q] = FrictionFactor[u,v,q] *
@@ -151,14 +150,14 @@ MixCalorificValue[u]*(FlowInOut[u]) <= HeatPowerUpper[u];
 subject to exitheatpowerlowerbound{u in SINKS}: 
 MixCalorificValue[u]*(FlowInOut[u]) >= HeatPowerLower[u];
 
-#subject to ComplementarityOne{(u,v,q) in ARCS}:
-#DirectionPos[u,v,q] + 10**(-6)-lambda_1[u,v,q]-lambda_2[u,v,q] = 0;
+subject to ComplementarityOne{(u,v,q) in ARCS}:
+DirectionPos[u,v,q] + 10**(-6)-lambda_1[u,v,q]-lambda_2[u,v,q] = 0;
 
-#subject to ComplemtarityTwo{(u,v,q) in ARCS}: DirectionPos[u,v,q] - FlowArcVar[u,v,q] >= 0;
+subject to ComplemtarityTwo{(u,v,q) in ARCS}: DirectionPos[u,v,q] - FlowArcVar[u,v,q] >= 0;
 
-#subject to ComplemtarityThree{(u,v,q) in ARCS}: lambda_1[u,v,q]*DirectionPos[u,v,q] <= 0;
+subject to ComplemtarityThree{(u,v,q) in ARCS}: lambda_1[u,v,q]*DirectionPos[u,v,q] <= 0;
 
-#subject to ComplemtarityFour{(u,v,q) in ARCS}: lambda_2[u,v,q]* (DirectionPos[u,v,q] - FlowArcVar[u,v,q]) <= 0;
+subject to ComplemtarityFour{(u,v,q) in ARCS}: lambda_2[u,v,q]* (DirectionPos[u,v,q] - FlowArcVar[u,v,q]) <= 0;
 
 #-----------------------------------------------------------------------------------
 # Mixing
