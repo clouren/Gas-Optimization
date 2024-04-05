@@ -71,8 +71,8 @@ Phi[u,v,q] = FrictionFactor[u,v,q]* (FlowArcVar[u,v,q]*(density)) *
 (
     (
         sqrt( (FlowArcVar[u,v,q]*density)**2 + e[u,v,q]**2)
-        + b[u,v,q]
-        + (c[u,v,q]/sqrt( (FlowArcVar[u,v,q]*density)**2 + d[u,v,q]**2))
+        + a[u,v,q]
+        + (b[u,v,q]/sqrt( (FlowArcVar[u,v,q]*density)**2 + d[u,v,q]**2))
     )
 )/(100000**2);
 
@@ -105,10 +105,10 @@ Phi[u,v,q] = FrictionFactor[u,v,q]* (FlowArcVar[u,v,q]*(density)) *
 
 # Define a few helper parameters
 # a in paper
-#param a_param{ (u,v,q) in PIPES} = b[u,v,q];
-#param b_param{ (u,v,q) in PIPES} = c[u,v,q] +( e[u,v,q]**2)/2;
-#param d_param{ (u,v,q) in PIPES} = (Diameter[u,v,q]*FrictionFactor[u,v,q] 
-#/ (64 * Eta*Area[u,v,q] * Gamma[u,v,q] - 2 * Epsilon[u,v,q] * Diameter[u,v,q] * FrictionFactor[u,v,q]))*b_param[u,v,q];
+param a_param{ (u,v,q) in PIPES} = a[u,v,q];
+param b_param{ (u,v,q) in PIPES} = b[u,v,q] +( e[u,v,q]**2)/2;
+param d_param{ (u,v,q) in PIPES} = (Diameter[u,v,q]*FrictionFactor[u,v,q] 
+/ (64 * Eta*Area[u,v,q] * omega[u,v,q] - 2 * t[u,v,q] * Diameter[u,v,q] * FrictionFactor[u,v,q]))*b_param[u,v,q];
 
 #subject to pressurelossinpipe{(u,v,q) in PIPES}:
 #Phi[u,v,q] = FrictionFactor[u,v,q] *

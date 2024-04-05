@@ -1,7 +1,11 @@
 ### This file contains the shared sets and parameters used across
 ### all models. Each individual model should thus include this file.
 ### Note that in order to property include this file locally, one needs to give the full
-### path to the file.
+### path to the file. For example, on Chris' macbook, the path to this file is:
+### "/Users/chris-macbook/Google Drive/My Drive/Geonhee-Gas Networks/Code/Updated AMPL Model Files-June 2023"
+###
+### On the NEOS cluster this should not be necesary.
+
 
 ### Sets used across all models
 
@@ -136,27 +140,28 @@ param SpecificGasConstant = UnivGasConstant/AvgMolarMass;
 # roughness of pipe (k) m
 param Roughness{(u,v,q) in PIPES};
 
-# friction parameter unitless
-param Beta{(u,v,q) in PIPES} = Roughness[u,v,q]/(3.71*Diameter[u,v,q]);
+# friction parameter unitless (rho)
+param rho{(u,v,q) in PIPES} = Roughness[u,v,q]/(3.71*Diameter[u,v,q]);
  
 # friction parameter lambda of pipe a (from High detail) (unitless)
 # From Chapter 2 equation 2.19
 # This is for the turbulent case and phi approx
-param Lambda{(u,v,q) in PIPES} = (2*log10(Beta[u,v,q])+1.138)**(-2);
+param Lambda{(u,v,q) in PIPES} = (2*log10(rho[u,v,q])+1.138)**(-2);
 
 # Dynamic viscosity. This is an estimate for the viscosity units are m**2/s
 param Eta = 10**(-6); 
 
-# Gamma used to have units for pressure  1/m**5
+# omega (w) used to have units for pressure  1/m**5
 # This is from various sources, one is Chapter 2 equation 2.25
 # Chapter 6 has a description in equation 6.4
-param Gamma{(u,v,q) in PIPES} = Length[u,v,q]*SpecificGasConstant*AvgGasTemp* MeanCompressibility
+param omega{(u,v,q) in PIPES} = Length[u,v,q]*SpecificGasConstant*AvgGasTemp* MeanCompressibility
 /(Area[u,v,q]**2*Diameter[u,v,q]);
 
 # This is the coefficient of the phi approximation
-# which is gamma times littlvae lambda
+# which is omega times small lambda
+# Denoted as capital lambda in paper
 # This is from chapter 6 6.14
-param FrictionFactor{(u,v,q) in PIPES} = Gamma[u,v,q]*Lambda[u,v,q];
+param FrictionFactor{(u,v,q) in PIPES} = omega[u,v,q]*Lambda[u,v,q];
 
 # modeler parameters NOTE This is chosen by the modeler. unitless.
 param e{(u,v,q) in PIPES}; 
@@ -167,14 +172,14 @@ param d{(u,v,q) in PIPES};
 # friction factor of alpha m**3/s
 param Alpha{(u,v,q) in PIPES} = 2.51*Area[u,v,q]*Eta/Diameter[u,v,q];
  
-# friction parameter delta NOTE This is lower case delta in formulation m**3/s
-param Epsilon{(u,v,q) in PIPES} = 2*Alpha[u,v,q]/(Beta[u,v,q]*log(10));
+# friction parameter t NOTE This is lower case t in formulation m**3/s
+param t{(u,v,q) in PIPES} = 2*Alpha[u,v,q]/(rho[u,v,q]*log(10));
 
-# friction parameter b, m**3/s
-param b{(u,v,q) in PIPES} = 2*Epsilon[u,v,q];
+# friction parameter a denoted as a^hat, m**3/s
+param a{(u,v,q) in PIPES} = 2*t[u,v,q];
 
 # friction parameter c , m**6/s**2
-param c{(u,v,q) in PIPES} = (log(Beta[u,v,q])+1)*Epsilon[u,v,q]**(2) - ((e[u,v,q]**(2))/2);
+param b{(u,v,q) in PIPES} = (log(rho[u,v,q])+1)*t[u,v,q]**(2) - ((e[u,v,q]**(2))/2);
 
 # Slack Parameter
 param SlackPressure = 0.01;
@@ -183,7 +188,6 @@ param SlackMixingNonSource = 0.01;
 
 param SlackMixingSource = 0.01;
 
-# This is the global density parameter used throughout all of GasLib-582
 param density = 0.82;
 
 ### End of file. Each model should include this file and then define any local parameters
